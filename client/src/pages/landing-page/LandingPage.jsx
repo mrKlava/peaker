@@ -1,5 +1,5 @@
 import React from 'react'
-import 'landing-page.scss'
+import './landing-page.scss'
 
 function LandingPage() {
   return (

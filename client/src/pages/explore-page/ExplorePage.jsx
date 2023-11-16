@@ -1,5 +1,5 @@
 import React from 'react'
-import 'explore-page.scss'
+import './explore-page.scss'
 
 function ExplorePage() {
   return (

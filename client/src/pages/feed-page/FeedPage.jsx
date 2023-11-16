@@ -1,5 +1,5 @@
 import React from 'react'
-import 'feed-page.scss'
+import './feed-page.scss'
 
 function FeedPage() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import 'register-page.scss'
+import './register-page.scss'
 
 function RegisterPage() {
   return (
