@@ -9,10 +9,10 @@ function SocialLayout() {
       <Navbar />
       <Header />
       <div className="container">
-        <main className='main-social'>
+        <div className='main-social'>
           <Aside />
           <Outlet />
-        </main>
+        </div>
       </div>
     </>
   )

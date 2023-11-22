@@ -1,53 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.scss'
 
-import {
-  Navigate,
-  RouterProvider
-  ,createBrowserRouter
-} from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
+import { AuthContextProvider } from './context/authContext'
 
-import { 
-  FeedPage
-  ,LandingPage
-  ,LoginPage
-  ,ProfilePage
-  ,RegisterPage 
-  ,ExplorePage 
-} from './pages'
-import { SocialLayout } from './layouts'
+import router from './router'
 
-
-
-const currentUser = true
-
-const ProtectedRoute = ({children}) => {
-  if (!currentUser) return <Navigate to='/login' />
-
-  return children
-}
-const AuthRoute = ({children}) => {
-  if (currentUser) return <Navigate to='/' />
-
-  return children
-}
-
-
-const router = createBrowserRouter([
-  { path: '/',            element: <ProtectedRoute><SocialLayout /></ProtectedRoute>, children: [
-    { path: '/',              element: <FeedPage /> },
-    { path: '/profile/:id',   element: <ProfilePage /> },
-  ]},
-  { path: '/landing',     element: <LandingPage /> },
-  { path: '/login',       element: <AuthRoute><LoginPage /></AuthRoute> },
-  { path: '/register',    element: <AuthRoute><RegisterPage /></AuthRoute> },
-  { path: '/explore',     element: <ExplorePage /> },
-])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider  router={router} />
+    <AuthContextProvider>
+      <RouterProvider  router={router} />
+    </AuthContextProvider>
   </React.StrictMode>
 );
