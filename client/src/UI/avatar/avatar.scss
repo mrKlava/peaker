@@ -1,0 +1,21 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+
+  border-radius: 5px;
+
+  &.small {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+  }
+}

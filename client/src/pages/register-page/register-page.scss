@@ -1,1 +1,39 @@
 @use '../../assets/styles/variables.scss' as *;
+
+.register {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .card {
+    display: flex;
+    flex-direction: row-reverse;
+    overflow: hidden;
+
+    max-width: 1000px;
+    min-height: 600px;
+
+    background-color: $bg-card-dark;
+
+    border-radius: 5px;
+
+    &-item {
+      flex: 1;      
+      padding: 2rem;
+
+      input {
+        width: 100%;
+      }
+
+      &:first-child {
+        // background-image: url('../../assets/images/login-bg.jpg');
+        background:linear-gradient(0deg, rgba(19, 12, 16, 0.4), rgba(11, 6, 9, 0.5)), url('../../assets/images/login-bg.jpg');
+
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.main-social {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2rem;
+
+  gap: 1.5rem;
+}

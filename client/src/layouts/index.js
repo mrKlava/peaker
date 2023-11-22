@@ -1,0 +1,1 @@
+export { default as SocialLayout } from './social-layout/SocialLayout'

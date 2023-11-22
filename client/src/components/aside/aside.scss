@@ -1,0 +1,62 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.aside {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5rem;
+
+  height: calc(100vh - 5rem);
+  min-width: 400px;
+  max-width: 400px;
+
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &-social {
+    display: flex;
+    justify-content: space-between;
+
+    &_stats {
+      display: flex;
+      gap: .125rem;
+
+      div {
+        background-color: $bg-card-dark;
+
+        padding: .5rem 1rem;
+
+        &:first-child {
+          border-radius: 5px 0 0 5px;
+        }
+        &:last-child {
+          border-radius: 0  5px 5px 0;
+        }
+      }
+    }
+
+    margin-bottom: 1rem;
+  }
+
+  &-bio {
+    background-color: $bg-card-dark;
+
+    padding: 1.5rem;
+
+    border-radius: 5px;
+
+    margin-bottom: 1rem;
+  }
+
+  &-locations {
+    background-color: $bg-card-light;
+
+    padding: 1.5rem;
+
+    border-radius: 5px;
+
+    margin-bottom: 1rem;
+  }
+}
