@@ -1,0 +1,11 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.btn {
+  &-prm {
+    background-color: $bg-btn-prm;
+
+    padding: .375rem 2rem;
+
+    border-radius: 5px;
+  }
+}

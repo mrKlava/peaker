@@ -3,6 +3,7 @@ import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLo
 
 import './aside.scss'
 import { AuthContext } from '../../context/authContext'
+import { Button } from '../../UI'
 
 function Aside() {
   const { currentUser } = useContext(AuthContext)
@@ -19,7 +20,7 @@ function Aside() {
           <div><span>Followers</span>: {currentUser.followers}</div>
           <div><span>Following</span>: {currentUser.following}</div>
         </div>
-        <button>Follow</button>
+        <Button>Follow</Button>
       </section>
 
       <section className='aside-bio'>

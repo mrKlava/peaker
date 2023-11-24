@@ -11,6 +11,8 @@ $riche-green:           #323d24;
 $deep-green:            #292c1e;
 $khaki-green:           #515e3c;
 
+$product-main:          #FF6B00;
+
 $noir:                  #000;
 $blanche:               #fff;
 
@@ -30,7 +32,7 @@ $bg-navbar:             $riche-green;
 $bg-card-dark:          $khaki-green;
 $bg-card-light:         $beige;
 
-$bg-btn-prm:            $carolina-blue;
+$bg-btn-prm:            $product-main;
 $bg-btn-prm-hover:      darken($carolina-blue, 20%);
 $bg-btn-sec:            transparent;
 $bg-btn-sec-hover:      $carolina-blue;
