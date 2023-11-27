@@ -6,13 +6,16 @@ import { RouterProvider } from 'react-router-dom'
 import { AuthContextProvider } from './context/authContext'
 
 import router from './router'
+import { PostsContextProvider } from './context/postsContext'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <RouterProvider  router={router} />
+      <PostsContextProvider>
+        <RouterProvider  router={router} />
+      </PostsContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

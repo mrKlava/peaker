@@ -3,14 +3,12 @@
 .post {
   &-new {
     background-color: $bg-card-light;
-    flex-grow: 1;
-
-    padding: 2rem;
-
+    
     border-radius: 5px;
-
+    
     height: fit-content;
-
+    
+    padding: 2rem;
     margin-bottom: 2rem;
 
     &_body {
@@ -43,17 +41,5 @@
       gap: 1rem;
     }
 
-  }
-
-  &-feed {
-    display: flex;
-    flex-direction: column;
-
-    gap: 1.5rem;
-
-    justify-content: center;
-    align-items: center;
-
-    flex-grow: 1;
   }
 }

@@ -1,4 +1,6 @@
 export { default as Navbar } from './navbar/Navbar'
 export { default as Aside } from './aside/Aside'
 export { default as Header } from './header/Header'
+export { default as PostNew } from './post-new/PostNew'
+export { default as Feed } from './feed/Feed'
 export { default as Post } from './post/Post'

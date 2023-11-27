@@ -21,10 +21,10 @@ function Post({ post }) {
       <div className="post-body">
         {post.text}
         {
-        post.img 
+        post.images 
         ? ( 
         <div className="post-images">
-          { post.img.map((img, index) => {
+          { post.images.map((img, index) => {
             return <div key={index} className="post-images_image"><img src={`./assets/images/${img}`} alt="" /></div>
           })}
         </div>
