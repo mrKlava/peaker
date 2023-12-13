@@ -1,7 +1,9 @@
 @use '../../assets/styles/variables.scss' as *;
 
-.explore {
-  &-main {
+.users {
+  &-cards {
     display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
   }
 }

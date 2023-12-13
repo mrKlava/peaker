@@ -1,0 +1,13 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.map {
+ &-menu {
+  background-color: $bg-menu;
+
+  width: 100%;
+  min-height: 300px;
+  
+  padding: 1rem;
+ }
+}
+

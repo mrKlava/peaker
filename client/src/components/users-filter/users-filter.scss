@@ -1,0 +1,16 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.users {
+  &-filter {
+    margin-bottom: 3rem;
+
+    background-color: $bg-card-dark;
+    padding: 1rem;
+
+    border-radius: 5px;
+
+    &_title {
+      margin-bottom: 1rem;
+    }
+  }
+}

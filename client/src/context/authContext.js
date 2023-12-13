@@ -21,6 +21,7 @@ export const AuthContextProvider = ({children}) => {
 
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user") || JSON.stringify(test_user))
+    // null
   )
 
   const login = () => {

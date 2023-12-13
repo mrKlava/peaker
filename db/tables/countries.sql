@@ -1,0 +1,10 @@
+insert into countries (country_id, name) values (1, 'Macedonia');
+insert into countries (country_id, name) values (2, 'Moldova');
+insert into countries (country_id, name) values (3, 'Costa Rica');
+insert into countries (country_id, name) values (4, 'Armenia');
+insert into countries (country_id, name) values (5, 'China');
+insert into countries (country_id, name) values (6, 'Sweden');
+insert into countries (country_id, name) values (7, 'France');
+insert into countries (country_id, name) values (8, 'Poland');
+insert into countries (country_id, name) values (9, 'Central African Republic');
+insert into countries (country_id, name) values (10, 'Portugal');

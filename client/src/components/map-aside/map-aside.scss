@@ -1,0 +1,12 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.map-aside {
+  background-color: gray;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 500px;
+  max-width: 500px;
+  height: 100vh;
+}

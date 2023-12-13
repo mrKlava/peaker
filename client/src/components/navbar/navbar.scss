@@ -8,8 +8,7 @@
   right: 0;
 
   z-index: 100;
-
-
+  
   &-inner {
     display: flex;
     flex-direction: row;
@@ -18,9 +17,47 @@
     
     padding: 1rem 0;
   }
-
+  
   &-links {
     display: flex;
-    gap:1rem
+    gap:1rem;
+    
+    font-size: $text-sm;
+  }
+  
+  &-profile {
+    
+    &_menu {
+      position: absolute;
+
+      display: none;
+
+      top: 69px;
+      right: 0;
+      
+      font-size: $text-md;
+
+      &.active {
+        display: block;
+      }
+      
+      ul {
+        li {
+          background-color: $bg-navbar;
+          border-top: 1px solid $bg-card-light;
+          
+          a {
+            display: block;
+            padding: 1rem 2rem;
+          }
+
+          transition: background linear .2s;
+
+          &:hover {
+            background-color: $bg-card-light;
+          }
+        }
+      }
+    }
   }
 }

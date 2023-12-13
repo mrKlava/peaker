@@ -36,12 +36,12 @@ function Aside() {
       </section>
 
       <section className='aside-bio'>
-        <h2>{currentUser.firstname} {currentUser.lastname}</h2>
-        <div>
-          <span><IconLocation /></span>
+        <h2 className="aside-bio_name">{currentUser.firstname} {currentUser.lastname}</h2>
+        <div className="aside-bio_location">
+          <IconLocation />
           {currentUser.city} - {currentUser.country}
         </div>
-        <div>
+        <div className="aside-bio_bio">
           <h3>Bio</h3>
           <p>
             {currentUser.bio}

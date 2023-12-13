@@ -1,0 +1,9 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.map {
+ &-list {
+  background-color: $bg-menu-list;
+  overflow-y: scroll;
+  height: 100%;
+ }
+}

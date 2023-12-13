@@ -33,7 +33,8 @@ $bg-card-dark:          $khaki-green;
 $bg-card-light:         $beige;
 
 $bg-btn-prm:            $product-main;
-$bg-btn-prm-hover:      darken($carolina-blue, 20%);
+// $bg-btn-prm-hover:      lighten($product-main, 10%);
+$bg-btn-prm-hover:      darken($product-main, 5%);
 $bg-btn-sec:            transparent;
 $bg-btn-sec-hover:      $carolina-blue;
         // Side
