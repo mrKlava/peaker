@@ -1,0 +1,18 @@
+@use '../../assets/styles/variables.scss' as *;
+
+
+.post {
+  &-new {
+    &_upload {
+      overflow: hidden;
+
+      img {
+        border-radius: 5px;
+        display: block;
+        object-fit: cover;
+        width: 25%;
+        height: 200px;
+      }
+    }
+  }
+}

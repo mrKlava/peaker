@@ -8,8 +8,11 @@ import jwt from "jsonwebtoken"
 export const login = (req, res) => {
   // check if user exists by email
   const q = `
-    SELECT * 
-    FROM users
+    SELECT u.*
+          ,i.path AS user_img 
+    FROM users AS u
+    LEFT JOIN images AS i
+      ON u.image_id = i.image_id 
     WHERE email = ?
   `
 

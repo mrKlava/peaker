@@ -24,7 +24,7 @@ function Aside() {
     <aside className='aside'>
 
       <section className="aside-picture">
-          <img src={`./assets/images/${currentUser.image}`} alt="" />
+          <img src={`./assets/images/${currentUser.user_img}`} alt="" />
       </section>
 
       <section className='aside-social'>

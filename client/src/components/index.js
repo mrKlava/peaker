@@ -7,9 +7,13 @@ export { default as UsersFilter } from './users-filter/UsersFilter'
 export { default as UsersCards } from './users-cards/UsersCards'
 export { default as UsersCard } from './users-card/UsersCard'
 
-export { default as Feed } from './feed/Feed'
 export { default as PostNew } from './post-new/PostNew'
+export { default as Feed } from './feed/Feed'
+export { default as Posts } from './posts/Posts'
 export { default as Post } from './post/Post'
+
+export { default as Comments } from './comments/Comments'
+export { default as Comment } from './comment/Comment'
 
 export { default as Map } from './map/Map'
 export { default as MapAside } from './map-aside/MapAside'

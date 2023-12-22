@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../../UI'
 
 import './navbar.scss'
+import { AuthContext } from '../../context/authContext'
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false)
+  const { currentUser } = useContext(AuthContext)
 
   const handleMenu = () => setIsActive(!isActive)
-  
 
   return (
     <nav className='navbar'>
@@ -30,12 +31,12 @@ function Navbar() {
           <div className='navbar-profile'>
             {/* <Link to='/profile/me'> */}
             <button onClick={handleMenu}>
-              <Avatar img="user-photo.jpg" small={true} />
+              <Avatar img={currentUser.user_img} small={true} />
             </button>
             <div className={`navbar-profile_menu ${isActive ? 'active ' : ''}`}>
               <ul>
                 <li>
-                  <Link to="/profile/me">Profile</Link>
+                  <Link to={`/profile/${currentUser.user_id}`}>Profile</Link>
                 </li>
                 <li>
                   <Link to="#">

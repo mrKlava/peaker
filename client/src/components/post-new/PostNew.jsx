@@ -1,45 +1,78 @@
-import React, { useContext, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { httpRequest } from '../../axios'
+
+import './post-new.scss'
+
 import { ReactComponent as IconSend } from '../../assets/images/icons/IconSend.svg'
 import { ReactComponent as IconSmile } from '../../assets/images/icons/IconSmile.svg'
 import { ReactComponent as IconImage } from '../../assets/images/icons/IconImage.svg'
 import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
-import { PostsContext } from '../../context/postsContext'
 
-function PostNew() {
-  const {posts, setPosts} = useContext(PostsContext)
-  const [newpost, setNewpost] = useState({
+function PostNew() {  
+  const [post, setPost] = useState({
     text: "",
-    images: [],
     location: ""
   })
 
-  const createPost = () => {
-    setPosts([
-      {
-        ...newpost,
-        created: new Date().toJSON(),
-        id: Date.now(),
-        likes: 12345,
-        shares: 12345,
-        comments: 12345,
-        author: "Name Surname",
-        author_img: "user-photo.jpg",
-      },
-      ...posts])
+  const [ file, setFile ] = useState(null)
 
-    setNewpost({
+
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (newPost) => {
+      return httpRequest.post('/posts', newPost)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"])
+    }
+  })
+
+  const handleChange = (e) => setPost({ ...post, text: e.target.value })
+
+  const upload = async () => {
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+
+      const resp = await httpRequest.post("/upload/post-image", formData)
+      return resp.data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    let imgUrl = ""
+    if (file) imgUrl = await upload()
+
+    console.log(imgUrl)
+
+    mutation.mutate({text: post.text})
+
+    setPost({
       text: "",
-      images: [],
       location: ""
     })
   }
 
-  const handleChange = (e) => setNewpost({ ...newpost, text: e.target.value })
+  const removeImage = () => setFile(null)
+
+
 
   return (
     <section className="post-new">
       <div className="post-new_body">
-        <textarea onChange={handleChange} value={newpost.text}></textarea>
+        <textarea onChange={handleChange} value={post.text}></textarea>
+      { file && 
+      <div className="post-new_upload">
+        <img onClick={removeImage}  alt='' src={URL.createObjectURL(file)} />
+      </div>
+      }
       </div>
       <div className="post-new_footer">
         <ul className="post-footer_actions">
@@ -47,16 +80,17 @@ function PostNew() {
             <button><IconSmile /></button>
           </li>
           <li className="post-footer_action">
-            <button><IconImage /></button>
+            <label htmlFor="file"><IconImage /></label>
+            <input type="file" id="file" name="file" style={{display: "none"}} onChange={(e) => setFile(e.target.files[0])}/>
           </li>
           <li className="post-footer_action">
             <button><IconLocation /></button>
           </li>
         </ul>
-        <button onClick={createPost}><IconSend /></button>
+        <button onClick={handleSubmit}><IconSend /></button>
       </div>
     </section>
   )
 }
 
-export default PostNew
+export default PostNew 

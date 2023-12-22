@@ -1,8 +1,35 @@
-import React from 'react'
-import './login-page.scss'
+import { useContext, useState } from 'react'
+import { Button } from '../../UI'
 import { Link } from 'react-router-dom'
+import './login-page.scss'
+import { AuthContext } from '../../context/authContext'
 
 function LoginPage() {
+  const [error, setError] = useState(null)
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: ""
+  })
+
+  const { login } = useContext(AuthContext)
+
+  const handleChange = (e) => {
+    setInputs( prev => ({
+      ...prev, 
+      [e.target.name]: e.target.value,
+    }) )
+  }
+
+  const handleSubmit = async (e) => { 
+    e.preventDefault()
+    
+    try {
+      await login(inputs)
+    } catch (err) {
+      setError(err.response.data)
+    }
+  }
+
   return (
     <main className='login'>
       <div className='card'>
@@ -18,13 +45,16 @@ function LoginPage() {
           <h1>Login</h1>
           <form>
             <div>
-              <input type="email" name="email" id="email" placeholder="Email ..." />
+              <input type="email" name="email" onChange={handleChange} value={inputs.email} placeholder="Email ..." />
+              <input type="password" name="password" onChange={handleChange} value={inputs.password} placeholder="Password ..." />
             </div>
+            {
+              error
+              ? <h4 className="form-error">{error}</h4>
+              : null
+            }
             <div>
-              <input type="password" name="pwd" id="pwd" placeholder="Password ..." />
-            </div>
-            <div>
-              <button>Log In</button>
+              <Button onClick={handleSubmit}>Register</Button>
             </div>
           </form>
         </div>

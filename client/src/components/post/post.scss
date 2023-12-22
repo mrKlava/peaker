@@ -1,6 +1,10 @@
 @use '../../assets/styles/variables.scss' as *;
 
 .post {
+  svg.liked {
+    fill: $bg-btn-prm;
+  }
+
   background: $bg-card-dark;
   padding: 2rem;
 
