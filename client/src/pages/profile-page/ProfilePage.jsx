@@ -1,35 +1,30 @@
 import React from 'react'
-import { PostNew, Posts } from '../../components'
+import { Aside, Header, Navbar, PostNew, Posts } from '../../components'
 
-import './profile-page.scss'
 import { useQuery } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { useLocation } from 'react-router-dom'
 
+import './profile-page.scss'
+
 function ProfilePage() {
-  const userID = useLocation().pathname.split("/")[2]
-
-  const { isLoading, erorr, data } = useQuery({
-    queryKey: ['user'],
-    queryFn: async () => {
-      try {
-        const resp = await httpRequest.get("/users/find/" + userID)
-        
-        console.log(resp.data)
-
-        return resp.data
-
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  })
+  const userID = parseInt(useLocation().pathname.split("/")[2])
 
   return (
-    <main>
-      <PostNew />
-      <Posts />
-    </main>
+    <>
+      <Navbar />
+      <Header />
+      <div className="container">
+        <div className='main-social'>
+          <Aside userID={userID} />
+          <main>
+            <PostNew />
+            <Posts userID={userID} />
+          </main>
+        </div>
+      </div>
+    </>
+
   )
 }
 

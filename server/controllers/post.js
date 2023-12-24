@@ -38,7 +38,7 @@ export const getPosts = (req, res) => {
 
 
 export const getUserPosts = (req, res) => {
-    const q = `
+  const q = `
   SELECT p.*
         ,u.firstname
         ,u.lastname
@@ -50,15 +50,12 @@ export const getUserPosts = (req, res) => {
       ON u.image_id = i.image_id
     WHERE p.user_id = ?
   `
-  db.query(q, [req.body.user_id], (err, data) => {
 
+  db.query(q, [req.params.userID], (err, data) => {
+    if (err) return res.status(500).json(err)
+      
+    return res.status(200).json(data)
   })
-
-}
-
-
-export const getPost = (req, res) => {
-  res.send('test')
 }
 
 

@@ -5,18 +5,20 @@ import Post from '../post/Post'
 
 import '../feed/feed.scss'
 
-function Posts() {
+function Posts({userID = null}) {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['posts'], 
     queryFn: async () => {
       try {
-        const resp = await httpRequest.get("/posts/")
-
+        const resp = await httpRequest.get("/posts/user/"+userID)
+        
         return resp.data
+
       } catch (err) {
         console.log(err)
       }
+
     }
   })
   

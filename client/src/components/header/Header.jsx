@@ -8,7 +8,7 @@ function Header() {
   return (
     <header className='header'>
       <div className='header-bg' style={
-        { background: `center / cover no-repeat url("./assets/images/${background_img}")` }}></div>
+        { background: `center / cover no-repeat url("/assets/images/${background_img}")` }}></div>
       <div className='container'>
         {/* Add later on */}
       </div>

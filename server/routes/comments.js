@@ -6,6 +6,7 @@ import { getComments
 const router = express.Router()
 
 router.get("/", getComments)
+
 router.post("/", addComment)
 
 export default router

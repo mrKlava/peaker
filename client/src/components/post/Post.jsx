@@ -12,6 +12,7 @@ import { Comments } from '../../components'
 import { httpRequest } from '../../axios'
 
 import './post.scss'
+import { Link } from 'react-router-dom'
 
 function Post({ post }) {
   const {currentUser} = useContext(AuthContext)
@@ -58,9 +59,6 @@ function Post({ post }) {
   })
 
 
-
-
-
   const handleLike = () => {
     mutationLike.mutate(data.includes(currentUser.user_id))
   }
@@ -80,11 +78,13 @@ function Post({ post }) {
   return (
     <article className="post">
       <div className="post-head">
-        <Avatar img={post.author_img} />
-        <div className="post-head_stamp">
-          <span>{post.firstname} {post.lastname}</span>
-          <span>{ moment(post.created).fromNow() } {post.location ? `- ${post.location}` : null} </span>
-        </div>
+        <Link to={`/profile/${post.user_id}`} >
+          <Avatar img={post.author_img} />
+          <div className="post-head_stamp">
+            <span>{post.firstname} {post.lastname}</span>
+            <span>{ moment(post.created).fromNow() } {post.location ? `- ${post.location}` : null} </span>
+          </div>
+        </Link>
       </div>
       <div className="post-body">
         {post.text}
