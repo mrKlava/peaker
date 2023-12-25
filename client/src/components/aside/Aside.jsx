@@ -1,11 +1,12 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
 
 import './aside.scss'
 import { AuthContext } from '../../context/authContext'
 import { Button } from '../../UI'
-import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
+import UserUpdate from '../user-update/UserUpdate'
 
 function Aside({ userID = null }) {
   const { currentUser } = useContext(AuthContext)
@@ -58,6 +59,7 @@ function Aside({ userID = null }) {
 
 
   const mutationFollow = useMutation({
+    mutationKey: ['followers'],
     mutationFn: async (isFollowed) => {
 
       if (isFollowed) return await httpRequest.delete('/follow?userID=' + userID)
@@ -65,7 +67,7 @@ function Aside({ userID = null }) {
     },
     onSuccess: () => {
       console.log('success')
-      QueryClient.invalidateQueries(["followers"])
+      queryClient.invalidateQueries(["followers"])
       console.log(followers)
     }
   })
@@ -86,8 +88,21 @@ function Aside({ userID = null }) {
 
 
   const handleEdit = () => {
-
+    setIsUpdate(true)
   }
+
+
+  const [isUpdate, setIsUpdate] = useState(false)
+
+  useEffect(() => {
+    if (isUpdate) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isUpdate])
+
+
 
   useEffect(() => {
     console.log(followers)
@@ -95,6 +110,8 @@ function Aside({ userID = null }) {
 
   return (
     <aside className='aside'>
+      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data}/>}
+
       {
         isLoading
           ? <h1>Loading</h1>

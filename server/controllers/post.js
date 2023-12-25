@@ -86,3 +86,28 @@ export const addPost = (req, res) => {
   })
 }
 
+
+export const deletePost = (req, res) => {
+  const token = req.cookies.accessToken
+
+  if (!token) return res.status(401).json("Not Authorized")
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+    if (err) return res.status(403).json("Token is not valid")
+    
+    const q = `
+    DELETE FROM posts
+    WHERE post_id = ?
+      AND user_id = ?
+    `
+    console.log([parseInt(req.params.postID), user.id])
+
+    db.query(q, [req.params.postID, user.id], (err, data) => {
+      if (err) return res.status(500).json(err)
+      if (data.affectedRows > 0) return res.status(200).json('Post has been deleted')
+
+      return res.status(403).json("Can not delete this post")
+    })
+  })
+}
+

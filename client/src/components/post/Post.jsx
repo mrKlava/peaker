@@ -7,7 +7,7 @@ import { ReactComponent as IconLike } from '../../assets/images/icons/IconLike.s
 import { ReactComponent as IconComment } from '../../assets/images/icons/IconComment.svg'
 import { ReactComponent as IconShare } from '../../assets/images/icons/IconShare.svg'
 import { ReactComponent as IconSend } from '../../assets/images/icons/IconSend.svg'
-import { Avatar } from '../../UI'
+import { Avatar, Button } from '../../UI'
 import { Comments } from '../../components'
 import { httpRequest } from '../../axios'
 
@@ -33,6 +33,15 @@ function Post({ post }) {
       } catch (err) {
         console.log(err)
       }
+    }
+  })
+
+  const mutationPost = useMutation({
+    mutationFn: (postID) => {
+      return httpRequest.delete("/posts/"+postID)
+    }, 
+    onSuccess: () => {
+      queryClient.invalidateQueries(['posts'])
     }
   })
 
@@ -75,6 +84,10 @@ function Post({ post }) {
     setCommentText("")
   } 
 
+  const handleDelete = () => {
+    mutationPost.mutate(post.post_id)
+  }
+
   return (
     <article className="post">
       <div className="post-head">
@@ -85,6 +98,10 @@ function Post({ post }) {
             <span>{ moment(post.created).fromNow() } {post.location ? `- ${post.location}` : null} </span>
           </div>
         </Link>
+        { 
+          post.user_id === currentUser.user_id && <Button onClick={handleDelete}>DELETE</Button>
+          
+        }
       </div>
       <div className="post-body">
         {post.text}

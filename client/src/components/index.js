@@ -6,6 +6,7 @@ export { default as HeaderExplore } from './header-explore/HeaderExplore'
 export { default as UsersFilter } from './users-filter/UsersFilter'
 export { default as UsersCards } from './users-cards/UsersCards'
 export { default as UsersCard } from './users-card/UsersCard'
+export { default as UserUpdate } from './user-update/UserUpdate'
 
 export { default as PostNew } from './post-new/PostNew'
 export { default as Feed } from './feed/Feed'

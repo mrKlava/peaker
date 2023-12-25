@@ -1,0 +1,17 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.user-update {
+  position: absolute;
+  z-index: 100;
+
+  top: 0;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+
+  background-color: $bg-navbar;
+
+  padding: 2rem;
+
+  overflow: hidden;
+}
