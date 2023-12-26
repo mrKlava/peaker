@@ -1,15 +1,24 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Avatar } from '../../UI'
+import { Link, useNavigate } from 'react-router-dom'
+import { Avatar, Button } from '../../UI'
 
 import './navbar.scss'
 import { AuthContext } from '../../context/authContext'
 
 function Navbar() {
+  const navigate = useNavigate()
+  
   const [isActive, setIsActive] = useState(false)
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser, logout } = useContext(AuthContext)
 
   const handleMenu = () => setIsActive(!isActive)
+  const handleLogout = async () => {
+    try {
+      await logout()
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <nav className='navbar'>
@@ -39,7 +48,7 @@ function Navbar() {
                   <Link to={`/profile/${currentUser.user_id}`}>Profile</Link>
                 </li>
                 <li>
-                  <Link to="#">
+                  <Link to='#' onClick={handleLogout}>
                     Logout
                   </Link>
                 </li>
