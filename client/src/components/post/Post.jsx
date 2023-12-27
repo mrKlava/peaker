@@ -1,18 +1,17 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
-import moment from 'moment'
+import { Author, Button, Card, Text } from '../../UI'
+import { Comments } from '../../components'
+import { httpRequest } from '../../axios'
 
 import { ReactComponent as IconLike } from '../../assets/images/icons/IconLike.svg'
 import { ReactComponent as IconComment } from '../../assets/images/icons/IconComment.svg'
 import { ReactComponent as IconShare } from '../../assets/images/icons/IconShare.svg'
 import { ReactComponent as IconSend } from '../../assets/images/icons/IconSend.svg'
-import { Avatar, Button } from '../../UI'
-import { Comments } from '../../components'
-import { httpRequest } from '../../axios'
+import { ReactComponent as IconDelete } from '../../assets/images/icons/IconDelete.svg'
 
 import './post.scss'
-import { Link } from 'react-router-dom'
 
 function Post({ post }) {
   const {currentUser} = useContext(AuthContext)
@@ -35,6 +34,7 @@ function Post({ post }) {
       }
     }
   })
+  
 
   const mutationPost = useMutation({
     mutationFn: (postID) => {
@@ -89,22 +89,14 @@ function Post({ post }) {
   }
 
   return (
-    <article className="post">
+    <Card className="post" article={true}>
       <div className="post-head">
-        <Link to={`/profile/${post.user_id}`} >
-          <Avatar img={post.author_img} />
-          <div className="post-head_stamp">
-            <span>{post.firstname} {post.lastname}</span>
-            <span>{ moment(post.created).fromNow() } {post.location ? `- ${post.location}` : null} </span>
-          </div>
-        </Link>
-        { 
-          post.user_id === currentUser.user_id && <Button onClick={handleDelete}>DELETE</Button>
-          
-        }
+        <Author author={post} />
+        { post.user_id === currentUser.user_id && <button onClick={handleDelete}><IconDelete /></button> }
       </div>
       <div className="post-body">
-        {post.text}
+        <Text className='post-body_text'>{post.text}</Text>
+
         {/* {
           post.images
             ? (
@@ -115,6 +107,7 @@ function Post({ post }) {
               </div>
             ) : null
         } */}
+
       </div>
       <div className="post-footer">
         <ul className="post-footer_actions">
@@ -128,10 +121,9 @@ function Post({ post }) {
             </button>
             <span>{ data && data.length }</span>
           </li>
-          <li className="post-footer_action">
+          {/* <li className="post-footer_action">
             <button><IconShare /></button>
-            {/* <span>{ post.shares }</span> */}
-          </li>
+          </li> */}
           <li className="post-footer_action" onClick={() => {setIsCommentsVisible(!isCommentsVisible)}}>
             <button>
               <IconComment />
@@ -147,7 +139,7 @@ function Post({ post }) {
       {isCommentsVisible && <Comments postId={post.post_id} />}
 
       {/* <Comments postId={post.post_id} /> */}
-    </article>
+    </Card>
   )
 }
 

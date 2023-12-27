@@ -6,4 +6,12 @@
   margin-top: 2rem;
 
   gap: 1.5rem;
+
+  @media (max-width: $screen-desktop-min) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(-20rem);
+  }
 }

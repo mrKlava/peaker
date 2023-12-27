@@ -8,7 +8,7 @@ import { getFollowing
 const router = express.Router()
 
 router.get("/", getFollowing)
-router.get("/me", getFollowers)
+router.get("/ers", getFollowers)
 router.post("/", addFollow)
 router.delete("/", deleteFollow)
 

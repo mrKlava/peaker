@@ -1,7 +1,8 @@
 import React from 'react'
-import './social-layout.scss'
 import { Aside, Header, Navbar } from '../../components'
 import { Outlet } from 'react-router-dom'
+
+import './social-layout.scss'
 
 function SocialLayout() {
   return (

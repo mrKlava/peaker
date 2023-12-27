@@ -29,7 +29,7 @@ function Feed() {
         ? 'loading'
         : error
           ? 'error'
-          :  data.map(post => <Post key={post.post_id} post={post} />)
+          : data.length ? data.map(post => <Post key={post.post_id} post={post} />) : <h1>No posts</h1>
       }
     </section>
   )

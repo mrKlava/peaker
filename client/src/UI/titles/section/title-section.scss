@@ -1,0 +1,9 @@
+@use '../../../assets/styles/variables.scss' as *;
+
+.title-section {
+  font-size: $text-md;
+
+  @media (max-width: $screen-tablet) {
+    font-size: $text-sm;
+  }
+}

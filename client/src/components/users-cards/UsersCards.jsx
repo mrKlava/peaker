@@ -7,7 +7,7 @@ function UsersCards({ users }) {
   return (
     <section className="users-cards">
       {users
-        ? users.map((user, i) => <UsersCard user={user} key={i} />)
+        ? users.map((user) => <UsersCard user={user} key={user.user_id} />)
         : <h1>No users found</h1>}
     </section>
   )

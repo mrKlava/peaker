@@ -10,13 +10,13 @@ export const AuthContextProvider = ({ children }) => {
   )
 
   const login = async (cred) => {
-    const resp = await httpRequest.post("/auth/login", cred, {
-      withCredentials: true,
-    })
-
-    console.log(resp)
+   try {
+    const resp = await httpRequest.post("/auth/login", cred, { withCredentials: true,})
 
     setCurrentUser(resp.data)
+   } catch (err) {
+    console.log(err)
+   }
   }
 
   const logout = async () => {
@@ -24,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
     try {
       await httpRequest.post('/auth/logout')
       localStorage.setItem("user", null)
+      setCurrentUser(null)
     } catch (err) {
       console.log(err)
     }

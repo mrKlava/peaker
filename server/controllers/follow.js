@@ -37,6 +37,8 @@ export const getFollowers = (req, res) => {
     FROM following
     WHERE following_user_id = ?
     `  
+
+  
     db.query(q, [req.query.userID], (err, data) => {
       if (err) return res.status(500).json(err)
 

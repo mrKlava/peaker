@@ -1,21 +1,14 @@
-import React from 'react'
-import moment from 'moment'
-import { useQuery } from '@tanstack/react-query'
+import { Author, Text } from '../../UI'
+import './comment.scss'
 
-import { Avatar } from '../../UI'
-
-function Comment({comment}) {
+function Comment({ comment }) {
   return (
     <div className='comment'>
-      <div className="post-head">
-        <Avatar img={comment.author_img} />
-        <div className="post-head_stamp">
-          <span>{comment.firstname} {comment.lastname}</span>
-          <span>{ moment(comment.created).fromNow() }</span>
-        </div>
+      <div className="comment-head">
+        <Author author={comment} small={true} />
       </div>
-      <div>
-        {comment.text}
+      <div className='comment-body'>
+        <Text>{comment.text}</Text>
       </div>
     </div>
   )

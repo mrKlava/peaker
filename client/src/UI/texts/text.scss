@@ -1,0 +1,12 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.text {
+  font-size: $text-sm;
+  font-family: $font-text;
+  font-weight: 300;
+  color: $color-text;
+
+  @media (max-width: $screen-tablet) {
+    font-size: $text-base;
+  }
+}

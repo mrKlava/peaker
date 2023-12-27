@@ -51,7 +51,7 @@ $bg-map:                $deep-blue;
 
     // FONTS
 $color-suptitle:        $flax;
-$color-title:           $flax;
+$color-title:           lighten($product-main, 20%);
 $color-text:            $blanche;
 $color-text-dark:       $xiketic;
 
@@ -95,8 +95,8 @@ $text-base:             16px;    // 1rem
 $text-xl:               8rem;    // 128px 
 $text-lg:               4rem;    // 64px
 $text-md:               2rem;    // 32px
-$text-sm:               1.5rem;  // 24px
-$text-xs:               1rem;    // 16px
+$text-sm:               1.25rem; // 24px
+$text-xs:               .75rem;  // 16px
 
 //////////////////////////////////////
 //           SCREEN SIZE            //
@@ -110,17 +110,17 @@ $screen-phone:          $screen-xs-min;         // 320px
         // Small screen / phone
 $screen-sm:             480px;
 $screen-sm-min:         $screen-sm;             // 480px
-$screen-tablet:         $screen-sm-min;         // 480px
+$screen-tablet-small:   $screen-sm-min;         // 480px
 // $screen-sm-max:         ($screen-md-min - 1);   // 767px
         // Medium screen / tablet
 $screen-md:             768px;
 $screen-md-min:         $screen-md;             // 768px
-$screen-desktop:        $screen-md-min;         // 768px
+$screen-tablet:          $screen-md-min;         // 768px
 // $screen-md-max:         ($screen-lg-min - 1);   // 991px
         // Medium screen / desktop small
 $screen-lg:             992px;
 $screen-lg-min:         $screen-lg;             // 992px
-$screen-desktop:        $screen-lg-min;         // 992px
+$screen-desktop-min:    $screen-lg-min;         // 992px
 // Large screen / desktop
 $screen-xl:             1200px;
 $screen-xl-min:         $screen-xl;             // 1200px

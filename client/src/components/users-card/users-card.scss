@@ -2,41 +2,21 @@
 
 .users {
   &-card {
-    background-color: $bg-card-light;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-
-    border-radius: 5px;
-    padding: 1rem;
-
-    &_img {
-      margin-right: 1rem;
-    }
 
     &_content {
       display: flex;
       align-items: center;
     }
 
-    &_bio {
-      display: flex;
-      flex-direction: column;
-    }
-
-    &_actions {
+    &_social {
       display: flex;
       align-items: center;
-      gap: 2rem
-    }
 
-    &_info {
-      ul {
-        display: flex;
-
-        gap: 1rem;
-      }
+      gap: 1rem;
     }
   }
 }

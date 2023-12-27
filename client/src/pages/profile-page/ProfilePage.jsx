@@ -1,18 +1,27 @@
-import { Aside, Header, Navbar, PostNew, Posts, UserUpdate } from '../../components'
+import { Aside, Header, Navbar, PostNew, Posts } from '../../components'
 
 import { useQuery } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { useLocation } from 'react-router-dom'
 
 import './profile-page.scss'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/authContext'
 
 function ProfilePage() {
-  const userID = parseInt(useLocation().pathname.split("/")[2])
+  // const [userID, setUserID] = useState(parseInt(useLocation().pathname.split("/")[2]))
   const {currentUser} = useContext(AuthContext)
 
+  const userID = parseInt(useLocation().pathname.split("/")[2])
+  
 
+  // NEED TO PUT ALL LOGIC OF GETTING USER OVER HERE AND PASS DOWN TO COMPONENTS
+  
+  
+  useEffect(() => {
+    // setUserID()
+    console.log('changed user id')
+  }, [userID]) 
   return (
     <>
       <Navbar />
