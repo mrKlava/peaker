@@ -9,7 +9,7 @@ export const getComments = (req, res) => {
         ,u.user_id
         ,u.firstname
         ,u.lastname
-        ,i.path AS author_img
+        ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
     FROM comments AS c
     JOIN users AS u
       ON c.user_id = u.user_id

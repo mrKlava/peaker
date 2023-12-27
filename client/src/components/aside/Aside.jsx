@@ -1,15 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
-
-import './aside.scss'
+import { UserUpdate } from '../../components'
 import { AuthContext } from '../../context/authContext'
-import { Button } from '../../UI'
+import { Button, Card, Loading, Text, TitleSection } from '../../UI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
-import UserUpdate from '../user-update/UserUpdate'
+
+import './aside.scss'
 
 function Aside({ userID = null }) {
+  const [isUpdate, setIsUpdate] = useState(false)
+
   const { currentUser } = useContext(AuthContext)
+
   const queryClient = useQueryClient()
 
 
@@ -20,6 +23,8 @@ function Aside({ userID = null }) {
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/users/find/" + userID)
+
+        console.log(data)
 
         return resp.data
 
@@ -47,7 +52,7 @@ function Aside({ userID = null }) {
     queryKey: ['followers', userID],
     queryFn: async () => {
       try {
-        const resp = await httpRequest.get("/follow/me?userID=" + userID)
+        const resp = await httpRequest.get("/follow/ers?userID=" + userID)
 
         return resp.data
 
@@ -56,7 +61,6 @@ function Aside({ userID = null }) {
       }
     }
   })
-
 
   const mutationFollow = useMutation({
     mutationKey: ['followers'],
@@ -72,7 +76,6 @@ function Aside({ userID = null }) {
     }
   })
 
-
   const handleFollow = () => {
 
     mutationFollow.mutate(followers.includes(currentUser.user_id))
@@ -86,13 +89,9 @@ function Aside({ userID = null }) {
     console.log('clicked following')
   }
 
-
   const handleEdit = () => {
     setIsUpdate(true)
   }
-
-
-  const [isUpdate, setIsUpdate] = useState(false)
 
   useEffect(() => {
     if (isUpdate) {
@@ -102,60 +101,59 @@ function Aside({ userID = null }) {
     }
   }, [isUpdate])
 
-
-
-  useEffect(() => {
-    console.log(followers)
-  }, [followers])
-
   return (
     <aside className='aside'>
-      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data}/>}
+      { isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} /> }
 
       {
         isLoading
-          ? <h1>Loading</h1>
+          ? <Loading />
           : <>
             <section className="aside-picture">
               <img src={`/assets/images/${data.user_img}`} alt="" />
             </section>
             {
               isLoadingFollowers || isLoadingFollowing
-                ? 'Loading...'
+                ? <Loading />
                 : <section className='aside-social'>
-                  <div className='aside-social_stats'>
-                    <div onClick={handleFollowers}><span>Followers</span>: {followers.length}</div>
-                    <div onClick={handleFollowing}><span>Following</span>: {following.length}</div>
-                  </div>
+                    <div className='aside-social_stats'>
+                      <div onClick={handleFollowers}><span>Followers</span>: {followers.length}</div>
+                      <div onClick={handleFollowing}><span>Following</span>: {following.length}</div>
+                    </div>
 
-                  {
-                    data.user_id === currentUser.user_id
-                    ? <Button onClick={handleEdit}>Edit</Button>
-                    : followers.includes(currentUser.user_id)
-                      ? <Button onClick={handleFollow}>Following</Button>
-                      : <Button onClick={handleFollow}>Follow</Button>
-                  }
-
-                </section>
+                    {
+                      data.user_id === currentUser.user_id
+                        ? <Button onClick={handleEdit}>Edit</Button>
+                        : followers.includes(currentUser.user_id)
+                          ? <Button onClick={handleFollow}>Following</Button>
+                          : <Button onClick={handleFollow}>Follow</Button>
+                    }
+                  </section>
             }
 
-            <section className='aside-bio'>
-              <h2 className="aside-bio_name">{data.firstname} {data.lastname}</h2>
-              <div className="aside-bio_location">
-                <IconLocation />
-                {data.city} - {data.country}
-              </div>
-              <div className="aside-bio_bio">
-                <h3>Bio</h3>
-                <p>
-                  {data.bio}
-                </p>
-              </div>
-            </section>
+            <Card className='aside-bio'>
+              <TitleSection className="aside-bio_name">{data.firstname} {data.middlename} {data.lastname}</TitleSection>
+              <h3 className="aside-bio_username">@{data.username}</h3>
 
-            <section className='aside-locations'>
-              <h3>Locations</h3>
-            </section>
+              {
+                data.location &&
+                <div className="aside-bio_location">
+                  <IconLocation />
+                  {data.location}
+                </div>
+              }
+              {
+                data.bio &&
+                <div className="aside-bio_bio">
+                  <TitleSection className="aside-bio_title">Bio</TitleSection>
+                  <Text className="aside-bio_text">{data.bio}</Text>
+                </div>
+              }
+            </Card>
+
+            <Card className='aside-locations' light={true}>
+              <TitleSection>Location</TitleSection>
+            </Card>
           </>
       }
 

@@ -1,0 +1,16 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.card {
+  background-color: $bg-card-dark;
+
+  border-radius: 5px;
+  padding: 2rem;
+
+  &__light {
+    background-color: $bg-card-light;
+  }
+
+  @media (max-width: $screen-tablet-small) {
+    padding: 1rem;
+  }
+}

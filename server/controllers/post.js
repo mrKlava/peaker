@@ -15,13 +15,13 @@ export const getPosts = (req, res) => {
     SELECT DISTINCT p.*
           ,u.firstname
           ,u.lastname
-          ,i.path AS author_img
+          ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
       FROM posts AS p
       LEFT JOIN users AS u
         ON p.user_id = u.user_id
       LEFT JOIN images AS i
         ON u.image_id = i.image_id
-      JOIN following AS f
+      LEFT JOIN following AS f
         ON p.user_id = f.following_user_id
     WHERE f.user_id = ?
       OR p.user_id = ?
@@ -42,13 +42,14 @@ export const getUserPosts = (req, res) => {
   SELECT p.*
         ,u.firstname
         ,u.lastname
-        ,i.path AS author_img
+        ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
     FROM posts AS p
     LEFT JOIN  users AS u
       ON p.user_id = u.user_id
     LEFT JOIN  images AS i
       ON u.image_id = i.image_id
     WHERE p.user_id = ?
+    ORDER BY p.created DESC
   `
 
   db.query(q, [req.params.userID], (err, data) => {

@@ -1,10 +1,49 @@
 @use '../../assets/styles/variables.scss' as *;
 
-
 .post {
   &-new {
+    height: fit-content;
+    
+    margin-bottom: 2rem;
+
+    &_body {
+      &::after {
+        display: block;
+        background-color: $bg-card-dark;
+        content: '';
+
+        width: 100%;
+        height: 1px;
+
+        margin: 1rem auto;
+      }
+
+      textarea {
+        resize: vertical;
+        width: 100%;
+        height: 200px;
+
+        background: none;
+        border: none;
+        outline: none;
+
+        @media (max-width: $screen-tablet-small) {
+          height: 100px;
+        }
+      }
+    }
+
+    &_footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
     &_upload {
       overflow: hidden;
+
+      display: flex;
 
       img {
         border-radius: 5px;
@@ -12,6 +51,16 @@
         object-fit: cover;
         width: 25%;
         height: 200px;
+
+
+        @media (max-width: $screen-tablet) {
+          width: 50%;
+          // height: 80px;
+        }
+        @media (max-width: $screen-tablet-small) {
+          width: 80px;
+          height: 80px;
+        }
       }
     }
   }

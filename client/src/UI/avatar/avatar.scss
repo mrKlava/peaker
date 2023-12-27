@@ -7,6 +7,11 @@
 
   border-radius: 5px;
 
+  @media (max-width: $screen-tablet) {
+    width: 2rem;
+    height: 2rem;
+  }
+
   &.small {
     width: 2rem;
     height: 2rem;

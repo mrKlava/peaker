@@ -6,5 +6,9 @@
   &-bg {
     background-color: antiquewhite;
     height: 400px;
+
+    @media (max-width: $screen-tablet-small) {
+      height: 300px;
+    }
   }
 }

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
-
-import './post-new.scss'
-
+import { Card } from '../../UI'
 import { ReactComponent as IconSend } from '../../assets/images/icons/IconSend.svg'
 import { ReactComponent as IconSmile } from '../../assets/images/icons/IconSmile.svg'
 import { ReactComponent as IconImage } from '../../assets/images/icons/IconImage.svg'
 import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
+
+import './post-new.scss'
+
 
 function PostNew() {  
   const [post, setPost] = useState({
@@ -65,7 +66,7 @@ function PostNew() {
 
 
   return (
-    <section className="post-new">
+    <Card className="post-new" light={true}>
       <div className="post-new_body">
         <textarea onChange={handleChange} value={post.text}></textarea>
       { file && 
@@ -89,7 +90,7 @@ function PostNew() {
         </ul>
         <button onClick={handleSubmit}><IconSend /></button>
       </div>
-    </section>
+    </Card>
   )
 }
 
