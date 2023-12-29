@@ -10,17 +10,16 @@ export const AuthContextProvider = ({ children }) => {
   )
 
   const login = async (cred) => {
-   try {
-    const resp = await httpRequest.post("/auth/login", cred, { withCredentials: true,})
+    try {
+      const resp = await httpRequest.post("/auth/login", cred, { withCredentials: true, })
 
-    setCurrentUser(resp.data)
-   } catch (err) {
-    console.log(err)
-   }
+      setCurrentUser(resp.data)
+    } catch (err) {
+      return err.response.data
+    }
   }
 
   const logout = async () => {
-
     try {
       await httpRequest.post('/auth/logout')
       localStorage.setItem("user", null)

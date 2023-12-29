@@ -91,6 +91,7 @@ function Aside({ userID = null }) {
 
   const handleEdit = () => {
     setIsUpdate(true)
+    window.scrollTo(0, 0)
   }
 
   useEffect(() => {

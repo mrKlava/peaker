@@ -1,17 +1,146 @@
 @use '../../assets/styles/variables.scss' as *;
 
-.user-update {
-  position: absolute;
-  z-index: 100;
+.user {
+  &-overlay {
+    background-color: black;
 
-  top: 0;
-  bottom: 1rem;
-  left: 0;
-  right: 0;
+    
+    position: fixed;
+    z-index: 999;
+    
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    
+    @media (max-width: $screen-desktop-min) {
+      position: fixed;
+      left: -1rem;
+      top: -7rem;
+      right: -1rem;
+      bottom: auto;
+      
+      height: 110vh;
+    }
+    
+  }
 
-  background-color: $bg-navbar;
+  &-update {
+    position: fixed;
+    z-index: 999;
 
-  padding: 2rem;
+    top: 7rem;
+    bottom: 3rem;
+    left: 3rem;
+    right: 3rem;
 
-  overflow: hidden;
+    margin: 0 auto;
+    max-width: 1100px;
+
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    background-color: $bg-navbar;
+
+    @media (max-width: $screen-desktop-min) {
+      top: -3rem;
+      left: 1rem;
+      right: 1rem;
+
+      height: 80vh;
+    }
+
+    @media (max-width: $screen-tablet-small) {
+      top: 2rem;
+    }
+
+    .form-row.break {
+      @media (max-width: $screen-desktop-min) {
+        flex-direction: column;
+      }
+    }
+
+    .input-text, .textarea, .input-select{
+      margin-bottom: .5rem;
+
+      @media (max-width: $screen-tablet-small) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    textarea {
+      height: 212px;
+
+      @media (max-width: $screen-desktop-min) {
+        height: 150px;
+      }
+    }
+
+    .btn-prm {
+      margin-top: 1.5rem;
+
+      @media (max-width: $screen-tablet-small) {
+        margin-top: 1rem;
+      }
+    }
+
+    &_close {
+      svg {
+        fill: $color-error;
+        width: 1.725rem;
+        height: 1.725rem;
+      }
+    }
+  }
+
+  &-images {
+    display: flex;
+    align-items: baseline;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+
+    @media (max-width: $screen-tablet) {
+      flex-direction: column;
+    }
+
+    &_item {
+      flex: 1;
+
+      &:last-child {
+        flex: 3;
+
+        @media (max-width: $screen-tablet) {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &-image {
+    height: 300px;
+    overflow: hidden;
+
+    border-radius: 5px;
+
+    margin-bottom: 1rem;
+
+    @media (max-width: $screen-desktop-min) {
+    }
+
+    @media (max-width: $screen-tablet-small) {
+      height: 200px;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
 }

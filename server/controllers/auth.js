@@ -1,6 +1,7 @@
 import { db } from "../connect.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import moment from "moment"
 
 
 /* LOGIN */
@@ -8,10 +9,10 @@ import jwt from "jsonwebtoken"
 export const login = (req, res) => {
   // check if user exists by email
 
-  console.log('api called')
-
   const q = `
   SELECT u.*
+        ,ci.city_id
+        ,ci.country_id
         ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ',', co.name)) as location
         ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img 
   FROM users AS u
@@ -28,17 +29,10 @@ export const login = (req, res) => {
     if (err) return res.status(500).json(err)
     if (!data.length) return res.status(404).json("User does not exist")
 
-    console.log('query executed')
-
-
     // check password match
     const checkPassword = bcrypt.compareSync(req.body.password, data[0].hash) // index 0 - array of users should have only one item
 
-    console.log('password compared')
-
     if (!checkPassword) return res.status(400).json("Wrong password or username")
-
-    console.log('password correct')
 
 
     const { hash, ...user } = data[0] // extract user object without hashed password
@@ -47,7 +41,7 @@ export const login = (req, res) => {
     res.cookie("accessToken", token, {
       httpOnly: true,
 
-    }).status(200).json(user) // return user object
+    }).status(200).json({...user, birthday: moment(user.birthday).format("YYYY-MM-DD")}) // return user object
 
   })
 }
@@ -81,7 +75,7 @@ export const register = (req, res) => {
       req.body.email,
       req.body.email,
       hash,
-      new Date()
+      moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
 
     ]
 

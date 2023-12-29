@@ -1,0 +1,48 @@
+@use '../../../assets/styles/variables.scss' as *;
+
+.input {
+  &-select {
+    flex: 1;
+
+    label {
+      font-size: $text-sm;
+
+      @media (max-width: $screen-tablet) {
+        font-size: $text-base;
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+
+    background-color: $bg-input;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+
+    select {
+      width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+
+      background-color: $bg-card-light;
+      color: $color-placeholder;
+
+      // padding: .325rem;
+
+      & option {
+        display: block;
+        padding: 1rem;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: $color-placeholder;
+      }
+    }
+  }
+}

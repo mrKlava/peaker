@@ -1,3 +1,4 @@
+import moment from "moment"
 import { db } from "../connect.js"
 import jwt from "jsonwebtoken"
 
@@ -13,6 +14,8 @@ export const getUsers = (req, res) => {
     SELECT u.user_id
           ,u.firstname
           ,u.lastname
+          ,ci.city_id
+          ,ci.country_id
           ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ', ', co.name)) as location
           ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
     FROM users AS u
@@ -38,6 +41,8 @@ export const getUser = (req, res) => {
 
   const q = `
   SELECT u.*
+        ,ci.city_id
+        ,ci.country_id
         ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ', ', co.name)) as location
         ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
   FROM users AS u
@@ -55,7 +60,7 @@ export const getUser = (req, res) => {
 
     const {hash, ...user} = data[0]
 
-    return res.status(200).json(user)
+    return res.status(200).json({...user, birthday: moment(user.birthday).format("YYYY-MM-DD")})
   })
 }
 
@@ -68,26 +73,51 @@ export const updateUser = (req, res) => {
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) return res.status(403).json("Token is not valid")
 
+
+
     const q = `
-      UPDATE users
-      SET 
-        firstname = ?
-        ,middlename = ?
-        ,lastname = ?
-        ,gender = ?
-        ,email = ?
-        ,username = ?
-      WHERE user_id = ?
-    `  
-    db.query(q, [     
-      req.body.firstname
+    UPDATE users
+    SET 
+      user_img = ?
+
+      ,firstname = ?
+      ,middlename = ?
+      ,lastname = ?
+
+      ,gender = ?
+      ,birthday = ?
+      ,city_id = ?
+
+      ,email = ?
+      ,username = ?
+
+    WHERE user_id = ?
+    `
+    
+    console.log(req.body) 
+
+    const params =  [ 
+      ,req.body.user_img
+      
+      ,req.body.firstname
       ,req.body.middlename
       ,req.body.lastname
+
       ,req.body.gender
+      ,req.body.birthday
+      ,req.body.city_id
+
       ,req.body.email
       ,req.body.username
+
+      ,req.body.password
+      ,req.body.rePassword
+
       ,user.id
-    ], (err, data) => {
+    ]
+
+
+    db.query(q, params, (err, data) => {
       if (err) return res.status(500).json(err)
       if (data.affectedRows > 0) return res.status(200).json('User updated')
 
@@ -95,3 +125,5 @@ export const updateUser = (req, res) => {
     })
   })
 }
+
+// moment(user.birthday).format("YYYY-MM-DD")

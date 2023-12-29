@@ -1,0 +1,11 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+
+  @media (max-width: $screen-tablet-small) {
+    flex-direction: column;
+    gap: 0;    
+  }
+}

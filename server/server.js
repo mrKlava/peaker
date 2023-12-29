@@ -11,6 +11,8 @@ import postRoutes from "./routes/posts.js"
 import likeRoutes from "./routes/likes.js"
 import commentRoutes from "./routes/comments.js"
 import followRoutes from "./routes/follows.js"
+import countryRoutes from "./routes/countries.js"
+import cityRoutes from "./routes/cities.js"
 
 
 /* Variables */
@@ -57,12 +59,14 @@ app.post("/api/upload/post-image", upload.single("file"), (req, res) => {
 /* Routing */
 
 // app.use("/api/upload",  uploadRoutes)
-app.use("/api/auth",      authRoutes)
-app.use("/api/users",     userRoutes)
-app.use("/api/posts",     postRoutes)
-app.use("/api/likes",     likeRoutes)
-app.use("/api/comments",  commentRoutes)
-app.use("/api/follow",    followRoutes)
+app.use("/api/auth",        authRoutes)
+app.use("/api/users",       userRoutes)
+app.use("/api/posts",       postRoutes)
+app.use("/api/likes",       likeRoutes)
+app.use("/api/comments",    commentRoutes)
+app.use("/api/follow",      followRoutes)
+app.use("/api/countries",   countryRoutes)
+app.use("/api/cities",      cityRoutes)
 
 
 /* Run server */

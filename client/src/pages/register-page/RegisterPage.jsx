@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { Button } from '../../UI'
+import { useState } from 'react'
+import { httpRequest } from '../../axios'
+import { Button, Card, InputText, Text, TextError, TitleMain, TitleSection } from '../../UI'
+import { AuthForm } from '../../components'
 import { Link } from 'react-router-dom'
-import './register-page.scss'
 
+import './register-page.scss'
 
 function RegisterPage() {
   const [error, setError] = useState(null)
@@ -15,68 +16,99 @@ function RegisterPage() {
     password: "",
     rePassword: "",
   })
-   
+
   const handleChange = (e) => {
-    setInputs( prev => ({
-      ...prev, 
+    setInputs(prev => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    }) )
+    }))
   }
 
-  const handleSubmit = async (e) => { 
+  const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const resp = await axios.post("http://localhost:2280/api/auth/register", {...inputs, registered: new Date().toISOString()})
-
-      console.log(resp)
-
+      const resp = await httpRequest.post("http://localhost:2280/api/auth/register", { ...inputs, registered: new Date().toISOString() })
     } catch (err) {
-      console.log(err )
       setError(err.response.data)
     }
   }
 
-
   return (
-    <main className='register'>
-      <div className='card'>
-      <div className='card-item'>
-          <h1>Welcome</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras semper at lectus eu vulputate. Quisque laoreet neque ac felis accumsan molestie. Donec id ex velit. Cras nec est et purus maximus laoreet. Nulla sit amet facilisis ex, at tempus eros. Vivamus dictum enim ipsum, ac malesuada dolor auctor eu. Sed vel lacinia lectus</p>
-          <p>Have account?</p>
-          <Link to='/login'>
-            <button>Login</button>
-          </Link>
-        </div>
-        <div className='card-item'>
-          <h1>Register</h1>
-
-          <form>
-            <div>
-              <input type="text" name="firstname" onChange={handleChange} value={inputs.firstname} placeholder="Name ..." />
-              <input type="text" name="lastname" onChange={handleChange} value={inputs.lastname} placeholder="Surname ..." />
-            </div>
-            <div>
-              <input type="email" name="email" onChange={handleChange} value={inputs.email} placeholder="Email ..." />
-              <input type="text" name="username" onChange={handleChange} value={inputs.username} placeholder="Username ..." />
-            </div>
-            <div>
-              <input type="password" name="password" onChange={handleChange} value={inputs.password} placeholder="Password ..." />
-              <input type="password" name="rePassword" onChange={handleChange} value={inputs.rePassword} placeholder="Confirm Password ..." />
-            </div>
-            {
-              error
-              ? <h4 className="form-error">{error}</h4>
-              : null
-            }
-            <div>
-              <Button onClick={handleSubmit}>Register</Button>
-            </div>
-          </form>
-
-        </div>
+    <AuthForm reverse={true}>
+      <div className='auth-item auth-intro'>
+        <TitleMain>Time to join</TitleMain>
+        <Text className="auth-item_text">Peaker is your place to connect with fellow adventurers, share your outdoor experiences, and discover new places to explore. Whether you're a seasoned hiker, a budding backpacker, or a casual camper, we've got something for everyone. Join the conversation, share your photos and videos, and find inspiration for your next adventure.</Text>
+        <TitleSection className="auth-item_tile">Already have account?</TitleSection>
+        <Link to='/login'>
+          <Button>Login</Button>
+        </Link>
       </div>
-    </main>
+      <Card className='auth-item'>
+        <TitleSection className="auth-item_tile">Register</TitleSection>
+        <form className='auth-form'>
+
+          <div className="form-row">
+            <InputText
+              type='text'
+              name='firstname'
+              placeholder='Firstname ...'
+              onChange={handleChange}
+              value={inputs.firstname}
+            />
+            <InputText
+              type='text'
+              name='lastname'
+              placeholder='Lastname...'
+              onChange={handleChange}
+              value={inputs.lastname}
+            />
+          </div>
+
+          <div className="form-row">
+            <InputText
+              type='email'
+              name='email'
+              placeholder='Email ...'
+              onChange={handleChange}
+              value={inputs.email}
+            />
+          </div>
+
+          <div className="form-row">
+            <InputText
+              type='text'
+              name='username'
+              placeholder='Username ...'
+              onChange={handleChange}
+              value={inputs.username}
+            />
+          </div>
+
+          <div className="form-row">
+            <InputText
+              type='password'
+              name='password'
+              placeholder='Password ...'
+              onChange={handleChange}
+              value={inputs.password}
+            />
+            <InputText
+              type='password'
+              name='rePasswordnp,'
+              placeholder='Re-Password ...'
+              onChange={handleChange}
+              value={inputs.rePassword}
+            />
+          </div>
+
+          <TextError error={error} />
+          
+          <div>
+            <Button onClick={handleSubmit}>Register</Button>
+          </div>
+        </form>
+      </Card>
+    </AuthForm>
   )
 }
 
