@@ -8,6 +8,8 @@ export { default as UsersCards } from './users-cards/UsersCards'
 export { default as UsersCard } from './users-card/UsersCard'
 export { default as UserUpdate } from './user-update/UserUpdate'
 
+export { default as AuthForm } from './auth-form/AuthForm'
+
 export { default as PostNew } from './post-new/PostNew'
 export { default as Feed } from './feed/Feed'
 export { default as Posts } from './posts/Posts'

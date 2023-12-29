@@ -21,6 +21,8 @@ $crimson-ua:            #950f2b;
 $flax:                  #eadb7c;
 $carolina-blue:         #4ba0d4;
 
+$rouge:                 #f30000;
+
 // $new-york-pink:         #de8682ff;
 // $mauve-taupe:           #8d5c72ff;
 // $space-cadet:           #1b1d3eff;
@@ -33,6 +35,9 @@ $bg-card-dark:          $khaki-green;
 $bg-card-light:         $beige;
 
 $bg-btn-prm:            $product-main;
+
+$bg-input:              $beige;
+
 // $bg-btn-prm-hover:      lighten($product-main, 10%);
 $bg-btn-prm-hover:      darken($product-main, 5%);
 $bg-btn-sec:            transparent;
@@ -54,6 +59,9 @@ $color-suptitle:        $flax;
 $color-title:           lighten($product-main, 20%);
 $color-text:            $blanche;
 $color-text-dark:       $xiketic;
+$color-error:           $product-main;
+
+$color-placeholder:     $blanche;
 
         // Nav-link
 $color-navlink:         $blanche;

@@ -24,6 +24,10 @@ body {
   // border:1px solid red;
 }
 
+*::selection {
+  background: $product-main;
+}
+
 h1,
 h2,
 h3,

@@ -1,9 +1,10 @@
-import React from 'react'
 import './button.scss'
 
-function Button({children, onClick}) {
+function Button({children, onClick, className}) {
+  const classes = className ? className + " btn-prm" : "btn-prm"
+
   return (
-    <button onClick={onClick} className="btn-prm">
+    <button onClick={onClick} className={classes}>
       {children}
     </button>
   )

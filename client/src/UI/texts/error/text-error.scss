@@ -1,0 +1,8 @@
+@use '../../../assets/styles/variables.scss' as *;
+
+.error {
+  font-size: $text-sm;
+  font-family: $font-text;
+  font-weight: 700;
+  color: $color-error;
+}
