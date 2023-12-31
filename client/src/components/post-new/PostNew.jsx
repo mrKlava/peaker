@@ -34,10 +34,11 @@ function PostNew() {
 
   const upload = async () => {
     try {
+      
       const formData = new FormData()
       formData.append("file", file)
-
-      const resp = await httpRequest.post("/upload/post-image", formData)
+      
+      const resp = await httpRequest.post("/upload/image", formData)
       return resp.data
 
     } catch (err) {

@@ -4,7 +4,6 @@ import { Author, Avatar, Button, Card, Loading } from '../../UI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { AuthContext } from '../../context/authContext'
-import { Link } from 'react-router-dom'
 
 import './users-card.scss'
 

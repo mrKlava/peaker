@@ -7,6 +7,10 @@
     align-items: center;
     gap: 1rem;
 
+    @media (max-width: $screen-tablet-small) {
+      flex-direction: column;
+    }
+
     &_content {
       display: flex;
       align-items: center;
@@ -17,6 +21,10 @@
       align-items: center;
 
       gap: 1rem;
+
+      @media (max-width: $screen-tablet-small) {
+        flex-direction: column;
+      }
     }
   }
 }
