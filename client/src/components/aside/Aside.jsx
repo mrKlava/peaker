@@ -7,6 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 
 import './aside.scss'
+import { Link } from 'react-router-dom'
 
 function Aside({ userID = null }) {
   const [isUpdate, setIsUpdate] = useState(false)
@@ -23,8 +24,6 @@ function Aside({ userID = null }) {
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/users/find/" + userID)
-
-        console.log(data)
 
         return resp.data
 
@@ -81,14 +80,6 @@ function Aside({ userID = null }) {
     mutationFollow.mutate(followers.includes(currentUser.user_id))
   }
 
-  const handleFollowers = () => {
-    console.log('clicked followers')
-  }
-
-  const handleFollowing = () => {
-    console.log('clicked following')
-  }
-
   const handleEdit = () => {
     setIsUpdate(true)
     window.scrollTo(0, 0)
@@ -118,8 +109,12 @@ function Aside({ userID = null }) {
                 ? <Loading />
                 : <section className='aside-social'>
                     <div className='aside-social_stats'>
-                      <div onClick={handleFollowers}><span>Followers</span>: {followers.length}</div>
-                      <div onClick={handleFollowing}><span>Following</span>: {following.length}</div>
+                      <div>
+                        <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
+                      </div>
+                      <div>
+                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
+                      </div>
                     </div>
 
                     {
@@ -153,7 +148,7 @@ function Aside({ userID = null }) {
             </Card>
 
             <Card className='aside-locations' light={true}>
-              <TitleSection>Location</TitleSection>
+              <TitleSection>Locations</TitleSection>
             </Card>
           </>
       }

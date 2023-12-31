@@ -8,4 +8,12 @@
     flex-direction: column;
     gap: 0;    
   }
+
+  button {
+    align-self: flex-end;
+
+    @media (max-width: $screen-tablet-small) {
+      align-self: center;
+    }
+  }
 }

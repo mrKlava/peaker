@@ -1,19 +1,100 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { Button, Card, InputSelect, InputText, TitleSection } from '../../UI'
+import { httpRequest } from '../../axios'
 
 import './users-filter.scss'
 
-function UsersFilter() {
+function UsersFilter({setSearchParams}) {
+  const [inputs, setInputs] = useState({search: '', country_id: '', city_id: ''})
+
+  /* Fetch Countries */
+  const { isLoading: isLoadingCountries, data: countries } = useQuery({
+    queryKey: ['countries'],
+    queryFn: async () => {
+      try {
+        const resp = await httpRequest.get("/countries")
+
+        return resp.data
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  })
+
+  /* Fetch Cities */
+  const { isLoading: isLoadingCities, data: cities } = useQuery({
+    queryKey: ['cities'],
+    queryFn: async () => {
+      try {
+        const resp = await httpRequest.get("/cities")
+
+        return resp.data
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  })
+
+  
+  const handleChange = (e) => {
+    setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+  
+
+  const handleClick = () => {
+    setSearchParams(inputs)
+  }
+
+  useEffect(() => {
+    console.log(inputs)
+  }, [inputs])
+
   return (
-    <section className="users-filter">
-      <h1 className="users-filter_title">Find People</h1>
-      <input type="text" />
-      <input type="text" />
-      <input type="text" />
-      <select>
-        <option value="test">Test</option>
-        <option value="test2">Test2 </option>
-      </select>
-    </section>
+    <Card className="users-filter">
+      <TitleSection className="users-filter_title">Find People</TitleSection>
+
+      <div className="form-row">
+        <InputText
+          label="Search"
+          name="search"
+          placeholder="Find by name, surname ..."
+          onChange={handleChange}
+          value={inputs.search}
+        />
+        <InputSelect
+          name="country_id"
+          label="Country"
+          onChange={handleChange}
+          value={inputs.country_id ? inputs.country_id : ''}
+        >
+          <option value="null" default>Select country</option>
+          {
+            isLoadingCountries
+              ? null
+              : countries.map((country) => <option key={country.country_id} value={country.country_id}>{country.name}</option>)
+          }
+        </InputSelect>
+        <InputSelect
+          name="city_id"
+          label="City"
+          onChange={handleChange}
+          value={inputs.city_id ? inputs.city_id : ''}
+
+        >
+          <option value="null" default>Select city</option>
+          {
+            isLoadingCities
+              ? null
+              : cities.map((city) => <option key={city.city_id} value={city.city_id}>{city.name}</option>)
+          }
+        </InputSelect>
+        <Button onClick={handleClick}>Search</Button>
+      </div>
+
+    </Card>
   )
 }
 

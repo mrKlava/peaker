@@ -53,32 +53,60 @@ function UserUpdate({ setIsUpdate, user }) {
     const file = e.target.files[0]
 
     console.log(e.target.files)
-    
+
     // check if image is less than 4mb
     if (file.type !== "image/jpeg") {
-      setError('Image must jpg')
-      
-      e.target.value = null;
-      return null 
-    }
-    if (((file.size/1024)/1024).toFixed(4) > 4) {
-      setError('Image can not be larger than 4mb')
-      
+      setError('Image must be jpg')
+
       e.target.value = null;
       return null
     }
-    
+    if (((file.size / 1024) / 1024).toFixed(4) > 4) {
+      setError('Image can not be larger than 4mb')
+
+      e.target.value = null;
+      return null
+    }
+
     return file
   }
 
-  const upload = async (file) => {
+  const upload = async (file, e) => {
+    e.preventDefault()
+
     try {
       const formData = new FormData()
       formData.append("file", file)
 
       console.log(formData)
 
-      const resp = await httpRequest.post("/upload/post-image", formData)
+      debugger
+      const resp = await httpRequest.post("/upload/image", formData)
+
+      console.log(resp.data)
+
+      return resp.data
+
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+
+  const uploadProfileImg = async (e) => {
+    e.preventDefault()
+    try {
+      const formData = new FormData()
+      formData.append("file", profileImg)
+
+      console.log(formData)
+
+      debugger
+
+      const resp = await httpRequest.post("/upload/image", formData)
+
+      console.log(resp.data)
+
       return resp.data
 
     } catch (err) {
@@ -103,19 +131,24 @@ function UserUpdate({ setIsUpdate, user }) {
   const updateUser = async (e) => {
     e.preventDefault()
 
-    // let coverUrl = user.coverImg
-    let profileUrl = user.profileImg
+    try {
+      debugger
+      // let coverUrl = user.coverImg
+      let profileUrl = user.user_img
 
-    // if (coverImg) coverUrl = await upload()
-    if (profileImg) profileUrl = await upload(profileImg)
+      // if (coverImg) coverUrl = await upload()
+      // if (profileImg) profileUrl = await upload(profileImg, e)
+      if (profileImg) profileUrl = await uploadProfileImg(e)
 
-    console.log(profileUrl)
+      console.log(profileUrl)      
 
+      mutation.mutate({ ...inputs, user_img: profileUrl ? profileUrl : inputs.user_img })
+      // mutation.mutate({...inputs, coverImg, user_img: profileUrl, cover_img: coverUrl})
 
-    mutation.mutate({ ...inputs, user_img: profileUrl ? profileUrl : inputs.user_img })
-    // mutation.mutate({...inputs, coverImg, user_img: profileUrl, cover_img: coverUrl})
-
-    setIsUpdate(false)
+      setIsUpdate(false)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
 
@@ -131,8 +164,8 @@ function UserUpdate({ setIsUpdate, user }) {
 
 
   useEffect(() => {
-    console.log(inputs)
-  }, [inputs])
+    console.log(user)
+  }, [user])
 
 
 
@@ -158,7 +191,7 @@ function UserUpdate({ setIsUpdate, user }) {
                     : <img src={`/assets/images/${inputs.user_img}`} alt="" />
                 }
               </div>
-              <input type="file" id="profileImg" name="profileImg" accept="image/jpeg" onChange={ (e) => setProfileImg(handleImage(e)) } />
+              <input type="file" id="profileImg" name="profileImg" accept="image/jpeg" onChange={(e) => setProfileImg(handleImage(e))} />
             </div>
 
             <div className="user-images_item">
@@ -241,8 +274,8 @@ function UserUpdate({ setIsUpdate, user }) {
                 <option value="null" default>Select country</option>
                 {
                   isLoadingCountries
-                  ? null
-                  : countries.map((country) => <option key={country.country_id} value={country.country_id}>{country.name}</option>)
+                    ? null
+                    : countries.map((country) => <option key={country.country_id} value={country.country_id}>{country.name}</option>)
                 }
               </InputSelect>
 
@@ -255,8 +288,8 @@ function UserUpdate({ setIsUpdate, user }) {
                 <option value="null" default>Select city</option>
                 {
                   isLoadingCities
-                  ? null
-                  : cities.map((city) => <option key={city.city_id} value={city.city_id}>{city.name}</option>)
+                    ? null
+                    : cities.map((city) => <option key={city.city_id} value={city.city_id}>{city.name}</option>)
                 }
               </InputSelect>
             </div>
