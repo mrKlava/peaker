@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/peaker/static/css/main.d31976d4.css",
+    "main.js": "/peaker/static/js/main.e0bb6068.js",
+    "static/media/login-bg.jpg": "/peaker/static/media/login-bg.1bc9b945cb2a89c69338.jpg",
+    "static/media/IconLike.svg": "/peaker/static/media/IconLike.9ffd6c6eeb47ee678f31e3b6467f6066.svg",
+    "static/media/IconImage.svg": "/peaker/static/media/IconImage.e92424ac5ec498567ca3b4e7f32461bb.svg",
+    "static/media/IconComment.svg": "/peaker/static/media/IconComment.e174d67e1b3f8fa026b66da692b36b4e.svg",
+    "static/media/IconShare.svg": "/peaker/static/media/IconShare.41f78986ebf03a2075b470c8d18e9d24.svg",
+    "static/media/IconSmile.svg": "/peaker/static/media/IconSmile.d2ac2248156e6e9f5b277c7ee6a6ccc9.svg",
+    "static/media/IconSend.svg": "/peaker/static/media/IconSend.6469f974a247605227fe6640e350747d.svg",
+    "static/media/IconClose.svg": "/peaker/static/media/IconClose.5f71fcff1ec37906bde525ee70988951.svg",
+    "index.html": "/peaker/index.html",
+    "static/media/IconDelete.svg": "/peaker/static/media/IconDelete.810384183753d2c81ec51420b2fcbd3e.svg",
+    "static/media/IconLocation.svg": "/peaker/static/media/IconLocation.ca08a0a6b361f8bb90e9b4bcc8782f43.svg",
+    "main.d31976d4.css.map": "/peaker/static/css/main.d31976d4.css.map",
+    "main.e0bb6068.js.map": "/peaker/static/js/main.e0bb6068.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d31976d4.css",
+    "static/js/main.e0bb6068.js"
+  ]
+}
