@@ -10,6 +10,7 @@
   z-index: 100;
   
   &-inner {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -22,7 +23,15 @@
     display: flex;
     gap:1rem;
     
-    font-size: $text-sm;
+    font-size: $text-md;
+    
+    @media (max-width: $screen-desktop) {
+      font-size: $text-sm;
+    }
+
+    @media (max-width: $screen-tablet) {
+        display: none;
+    }
   }
   
   &-profile {
@@ -45,6 +54,14 @@
         li {
           background-color: $bg-navbar;
           border-top: 1px solid $bg-card-light;
+
+          &.mob-link {
+            display: none;
+
+            @media (max-width: $screen-tablet) {
+              display: block;
+            }
+          }
           
           a {
             display: block;

@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Avatar, Button } from '../../UI'
-
-import './navbar.scss'
+import { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Avatar } from '../../UI'
 import { AuthContext } from '../../context/authContext'
 
+import './navbar.scss'
+
 function Navbar() {
-  const navigate = useNavigate()
-  
-  const [isActive, setIsActive] = useState(false)
   const { currentUser, logout } = useContext(AuthContext)
+  const [isActive, setIsActive] = useState(false)
 
   const handleMenu = () => setIsActive(!isActive)
+
   const handleLogout = async () => {
     try {
       await logout()
@@ -38,14 +37,22 @@ function Navbar() {
             </ul>
           </div>
           <div className='navbar-profile'>
-            {/* <Link to='/profile/me'> */}
             <button onClick={handleMenu}>
               <Avatar img={currentUser.user_img} small={true} />
             </button>
             <div className={`navbar-profile_menu ${isActive ? 'active ' : ''}`}>
               <ul>
+                <li className="mob-link">
+                  <Link onClick={handleMenu} to='/'>Feed</Link>
+                </li>
+                <li className="mob-link">
+                  <Link onClick={handleMenu} to='/users'>Users</Link>
+                </li>
+                <li className="mob-link">
+                  <Link onClick={handleMenu} to='/explore'>Explore</Link>
+                </li>
                 <li>
-                  <Link to={`/profile/${currentUser.user_id}`}>Profile</Link>
+                  <Link onClick={handleMenu} to={`/profile/${currentUser.user_id}`}>Profile</Link>
                 </li>
                 <li>
                   <Link to='#' onClick={handleLogout}>
@@ -54,7 +61,6 @@ function Navbar() {
                 </li>
               </ul>
             </div>
-            {/* </Link> */}
           </div>
         </div>
       </div>

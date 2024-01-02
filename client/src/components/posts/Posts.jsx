@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useInView } from 'react-intersection-observer'
 import { httpRequest } from '../../axios'
@@ -7,8 +7,10 @@ import { Post } from '../../components'
 
 import '../feed/feed.scss'
 
-function Posts({ userID = null }) {
+function Posts({ userID }) {
   const { ref, inView } = useInView()
+
+  const [id, setId] = useState(userID)
 
   const {
     status,
@@ -18,10 +20,10 @@ function Posts({ userID = null }) {
     hasNextPage,
   } = useInfiniteQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['users'],
+    queryKey: ['users', id],
     queryFn: async ({ pageParam }) => {
       try {
-        const resp = await httpRequest.get("/posts/user/" + userID + '?page=' + pageParam)
+        const resp = await httpRequest.get("/posts/user/" + id + '?page=' + pageParam)
 
         return resp.data
 
@@ -38,6 +40,8 @@ function Posts({ userID = null }) {
       fetchNextPage()
     }
   }, [fetchNextPage, inView])
+
+  useEffect(() => {setId(userID)}, [userID])
 
   return (
     <section className='post-feed'>
