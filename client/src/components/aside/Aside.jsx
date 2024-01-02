@@ -9,30 +9,14 @@ import { httpRequest } from '../../axios'
 import './aside.scss'
 import { Link } from 'react-router-dom'
 
-function Aside({ userID = null }) {
-  const [isUpdate, setIsUpdate] = useState(false)
-
+function Aside({ user }) {
+  const queryClient = useQueryClient()
   const { currentUser } = useContext(AuthContext)
 
-  const queryClient = useQueryClient()
+  const [isUpdate, setIsUpdate] = useState(false)
 
+  const userID = user.user_id
 
-  userID = userID ? userID : currentUser.user_id
-
-  const { isLoading, error, data } = useQuery({
-    refetchOnWindowFocus: false,
-    queryKey: ['user'],
-    queryFn: async () => {
-      try {
-        const resp = await httpRequest.get("/users/find/" + userID)
-
-        return resp.data
-
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  })
 
   const { isLoading: isLoadingFollowing, data: following } = useQuery({
     refetchOnWindowFocus: false,
@@ -55,8 +39,6 @@ function Aside({ userID = null }) {
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/follow/ers?userID=" + userID)
-
-        console.log("/follow/ers?userID=" + userID)
 
         return resp.data
 
@@ -81,7 +63,6 @@ function Aside({ userID = null }) {
   })
 
   const handleFollow = () => {
-
     mutationFollow.mutate(followers.includes(currentUser.user_id))
   }
 
@@ -100,63 +81,62 @@ function Aside({ userID = null }) {
 
   return (
     <aside className='aside'>
-      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} />}
+      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={user} />}
 
+
+      <section className="aside-picture">
+        <img src={`/assets/images/${user.user_img}`} alt="" />
+      </section>
       {
-        isLoading
+        isLoadingFollowers || isLoadingFollowing
           ? <Loading />
-          : <>
-            <section className="aside-picture">
-              <img src={`/assets/images/${data.user_img}`} alt="" />
-            </section>
+          : <section className='aside-social'>
+            <div className='aside-social_stats'>
+              <div>
+                <Link to={`/users?followers=${user.user_id}`}><span>Followers</span>: {followers.length}</Link>
+              </div>
+              <div>
+                <Link to={`/users?following=${user.user_id}`}><span>Following</span>: {following.length}</Link>
+              </div>
+            </div>
+
             {
-              isLoadingFollowers || isLoadingFollowing
-                ? <Loading />
-                : <section className='aside-social'>
-                  <div className='aside-social_stats'>
-                    <div>
-                      <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
-                    </div>
-                    <div>
-                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
-                    </div>
-                  </div>
-
-                  {
-                    data.user_id === currentUser.user_id
-                      ? <Button onClick={handleEdit}>Edit</Button>
-                      : followers.includes(currentUser.user_id)
-                        ? <Button onClick={handleFollow}>Following</Button>
-                        : <Button onClick={handleFollow}>Follow</Button>
-                  }
-                </section>
+              user.user_id === currentUser.user_id
+                ? <Button onClick={handleEdit}>Edit</Button>
+                : followers.includes(currentUser.user_id)
+                  ? <Button onClick={handleFollow}>Following</Button>
+                  : <Button onClick={handleFollow}>Follow</Button>
             }
-
-            <Card className='aside-bio'>
-              <TitleSection className="aside-bio_name">{data.firstname} {data.middlename} {data.lastname}</TitleSection>
-              <h3 className="aside-bio_username">@{data.username}</h3>
-
-              {
-                data.location &&
-                <div className="aside-bio_location">
-                  <IconLocation />
-                  {data.location}
-                </div>
-              }
-              {
-                data.bio &&
-                <div className="aside-bio_bio">
-                  <TitleSection className="aside-bio_title">Bio</TitleSection>
-                  <Text className="aside-bio_text">{data.bio}</Text>
-                </div>
-              }
-            </Card>
-
-            <Card className='aside-locations' light={true}>
-              <TitleSection>Locations</TitleSection>
-            </Card>
-          </>
+          </section>
       }
+
+
+
+
+      <Card className='aside-bio'>
+        <TitleSection className="aside-bio_name">{user.firstname} {user.middlename} {user.lastname}</TitleSection>
+        <h3 className="aside-bio_username">@{user.username}</h3>
+
+        {
+          user.location &&
+          <div className="aside-bio_location">
+            <IconLocation />
+            {user.location}
+          </div>
+        }
+        {
+          user.bio &&
+          <div className="aside-bio_bio">
+            <TitleSection className="aside-bio_title">Bio</TitleSection>
+            <Text className="aside-bio_text">{user.bio}</Text>
+          </div>
+        }
+      </Card>
+
+      <Card className='aside-locations' light={true}>
+        <TitleSection>Locations</TitleSection>
+      </Card>
+
 
     </aside>
   )

@@ -10,39 +10,27 @@ import { AuthContext } from '../../context/authContext'
 import './profile-page.scss'
 
 function ProfilePage() {
+  const { currentUser } = useContext(AuthContext)
+
+  const id = useLocation().pathname.split("/")[2]
+  const [userID, setUserID] = useState(id ? parseInt(id) : currentUser.user_id)
 
 
-  // const [userID, setUserID] = useState(parseInt(useLocation().pathname.split("/")[2]))
-  const {currentUser} = useContext(AuthContext)
+  useEffect(() => { window.scrollTo(0, 0) }, [])
 
-  const userID = parseInt(useLocation().pathname.split("/")[2])
-  
-
-  // NEED TO PUT ALL LOGIC OF GETTING USER OVER HERE AND PASS DOWN TO COMPONENTS
-  
-  
   useEffect(() => {
-    // setUserID()
-    console.log('changed user id')
-  }, [userID]) 
-
-  useEffect(() => {window.scrollTo(0, 0)}, [])
+    if (id) {
+      setUserID(parseInt(id))
+    } else {
+      setUserID(currentUser.user_id)
+    }
+  }, [id])
 
   return (
-    <>
-      <Navbar />
-      <Header />
-      <div className="container">
-        <div className='main-social'>
-          <Aside userID={userID} />
-          <main>
-            { userID === currentUser.user_id && <PostNew />}
-            <Posts userID={userID} />
-          </main>
-        </div>
-      </div>
-    </>
-
+    <main>
+      {userID === currentUser.user_id && <PostNew />}
+      <Posts userID={userID} />
+    </main>
   )
 }
 

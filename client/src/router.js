@@ -45,18 +45,18 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <FeedPage /> },
       { path: '/users', element: <UsersPage /> },
-      // { path: '/profile/:id',   element: <ProfilePage /> },
+      { path: '/profile/:id',   element: <ProfilePage /> },
     ]
   },
-  {
-    path: '/profile/:id', element: (
-      <ProtectedRoute>
-        <QueryClientProvider client={queryCLient}>
-          <ProfilePage />
-        </QueryClientProvider>
-      </ProtectedRoute>
-    )
-  },
+  // {
+  //   path: '/profile/:id', element: (
+  //     <ProtectedRoute>
+  //       <QueryClientProvider client={queryCLient}>
+  //         <ProfilePage />
+  //       </QueryClientProvider>
+  //     </ProtectedRoute>
+  //   )
+  // },
   { path: '/landing', element: <LandingPage /> },
   { path: '/login', element: <AuthRoute><LoginPage /></AuthRoute> },
   { path: '/register', element: <AuthRoute><RegisterPage /></AuthRoute> },
