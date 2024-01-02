@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UsersCards, UsersFilter } from '../../components'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -54,6 +54,8 @@ function UsersPage() {
       fetchNextPage()
     }
   }, [fetchNextPage, inView])
+
+  useEffect(() => {window.scrollTo(0, 0)}, [])
 
   return (
     <main className="users-main">

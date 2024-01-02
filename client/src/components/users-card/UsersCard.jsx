@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Author, Avatar, Button, Card, Loading } from '../../UI'
+import { Author, Button, Card, Loading } from '../../UI'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
@@ -67,7 +67,6 @@ function UsersCard({ user }) {
                     : <Button onClick={handleFollow}>Follow</Button>
               }
             </>
-
         }
       </div>
 

@@ -5,3 +5,5 @@ export { default as ProfilePage } from './profile-page/ProfilePage'
 export { default as FeedPage } from './feed-page/FeedPage'
 export { default as ExplorePage } from './explore-page/ExplorePage'
 export { default as UsersPage } from './users-page/UsersPage'
+
+export { default as NotFound } from './not-found-page/NotFound'

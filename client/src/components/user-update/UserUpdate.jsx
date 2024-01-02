@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
-import { Button, Card, InputSelect, InputText, InputTextarea, Loading, TextError, TitleMain } from '../../UI'
+import { Button, Card, InputSelect, InputText, InputTextarea, TextError, TitleMain } from '../../UI'
 import { ReactComponent as IconClose } from '../../assets/images/icons/IconClose.svg'
-import moment from "moment"
-
 
 import './user-update.scss'
 
@@ -95,15 +93,12 @@ function UserUpdate({ setIsUpdate, user }) {
   }
 
 
-  const uploadProfileImg = async (e) => {
-    e.preventDefault()
+  const uploadProfileImg = async () => {
     try {
       const formData = new FormData()
       formData.append("file", profileImg)
 
       console.log(formData)
-
-      debugger
 
       const resp = await httpRequest.post("/upload/image", formData)
 
@@ -114,6 +109,19 @@ function UserUpdate({ setIsUpdate, user }) {
     } catch (err) {
       console.log(err)
     }
+  }
+
+
+  const handleUpload = async (e) => {
+    e.preventDefault()
+
+    debugger
+    // let coverUrl = user.coverImg
+    let profileUrl = ""
+
+    // if (coverImg) coverUrl = await upload()
+    // if (profileImg) profileUrl = await upload(profileImg, e)
+    if (profileImg) profileUrl = await uploadProfileImg(e)
   }
 
   const mutation = useMutation({
@@ -134,24 +142,14 @@ function UserUpdate({ setIsUpdate, user }) {
     e.preventDefault()
 
     try {
-      debugger
-      // let coverUrl = user.coverImg
-      let profileUrl = user.user_img
-
-      // if (coverImg) coverUrl = await upload()
-      // if (profileImg) profileUrl = await upload(profileImg, e)
-      if (profileImg) profileUrl = await uploadProfileImg(e)
-
-      console.log(profileUrl)      
-
-      mutation.mutate({ ...inputs, user_img: profileUrl ? profileUrl : inputs.user_img })
-      // mutation.mutate({...inputs, coverImg, user_img: profileUrl, cover_img: coverUrl})
+      mutation.mutate(inputs)
 
       setIsUpdate(false)
     } catch (err) {
       console.log(err)
     }
   }
+
 
 
   /* DEBUG */
@@ -181,7 +179,7 @@ function UserUpdate({ setIsUpdate, user }) {
 
         <TitleMain>Update Info</TitleMain>
 
-        <form>
+        <div>
           <div className="user-images">
 
             <div className="user-images_item">
@@ -207,8 +205,11 @@ function UserUpdate({ setIsUpdate, user }) {
               </div>
               <input type="file" id="coverImg" name="coverImg" accept="image/jpeg" onChange={(e) => setCoverImg(handleImage(e))} />
             </div>
-
           </div>
+          <Button onClick={handleUpload}>Upload</Button>
+        </div>
+
+        <form>
 
           <div className="form-row">
             <InputText

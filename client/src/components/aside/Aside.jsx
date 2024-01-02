@@ -56,6 +56,8 @@ function Aside({ userID = null }) {
       try {
         const resp = await httpRequest.get("/follow/ers?userID=" + userID)
 
+        console.log("/follow/ers?userID=" + userID)
+
         return resp.data
 
       } catch (err) {
@@ -98,7 +100,7 @@ function Aside({ userID = null }) {
 
   return (
     <aside className='aside'>
-      { isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} /> }
+      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} />}
 
       {
         isLoading
@@ -111,23 +113,23 @@ function Aside({ userID = null }) {
               isLoadingFollowers || isLoadingFollowing
                 ? <Loading />
                 : <section className='aside-social'>
-                    <div className='aside-social_stats'>
-                      <div>
-                        <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
-                      </div>
-                      <div>
-                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
-                      </div>
+                  <div className='aside-social_stats'>
+                    <div>
+                      <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
                     </div>
+                    <div>
+                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
+                    </div>
+                  </div>
 
-                    {
-                      data.user_id === currentUser.user_id
-                        ? <Button onClick={handleEdit}>Edit</Button>
-                        : followers.includes(currentUser.user_id)
-                          ? <Button onClick={handleFollow}>Following</Button>
-                          : <Button onClick={handleFollow}>Follow</Button>
-                    }
-                  </section>
+                  {
+                    data.user_id === currentUser.user_id
+                      ? <Button onClick={handleEdit}>Edit</Button>
+                      : followers.includes(currentUser.user_id)
+                        ? <Button onClick={handleFollow}>Following</Button>
+                        : <Button onClick={handleFollow}>Follow</Button>
+                  }
+                </section>
             }
 
             <Card className='aside-bio'>
