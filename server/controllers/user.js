@@ -12,21 +12,8 @@ export const getUsers = (req, res) => {
     if (err) return res.status(403).json("Token is not valid")
 
     const q = `
-    SELECT u.user_id
-          ,u.firstname
-          ,u.lastname
-          ,ci.city_id
-          ,ci.country_id
-          ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ', ', co.name)) as location
-          ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
-          ,CONCAT(u.firstname, ' ', u.lastname)
-    FROM users AS u
-    LEFT JOIN images AS i
-      ON u.image_id = i.image_id
-    LEFT JOIN cities AS ci
-      ON u.city_id = ci.city_id
-    LEFT JOIN countries AS co
-      ON ci.country_id = co.country_id
+    SELECT *
+    FROM vw_filtered_users
     ` 
 
     db.query(q, [], (err, data) => {
@@ -46,6 +33,7 @@ export const getFilterUsers = (req, res) => {
     if (err) return res.status(403).json("Token is not valid")
 
     let clause = "WHERE "
+    const page = ` LIMIT ?, 10`
     const arr = []
     const params = []
 
@@ -54,56 +42,43 @@ export const getFilterUsers = (req, res) => {
       if (value) {
         if (key === 'search') {
           arr.push(`search_column LIKE ?`)
-          params.push(value)
+          params.push(`%${value}%`)
         } else {
           if (key === 'country_id') {
-            arr.push('ci.country_id = ?')
+            arr.push('country_id = ?')
           } else if (key === 'city_id') {
-            arr.push('ci.city_id = ?')
+            arr.push('city_id = ?')
           } else if (key === 'followers') {
-
             arr.push('')
           } else if (key === 'following') {
 
+          } if (key === 'page') {
+            params.push(parseInt(value) * 10)
+          } else {
+            params.push(parseInt(value))
           }
-
-          params.push(parseInt(value))
         }
-
       }
     }
 
     const q = `
-    SELECT u.user_id
-          ,u.firstname
-          ,u.lastname
-          ,ci.city_id
-          ,ci.country_id
-          ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ', ', co.name)) as location
-          ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
-          ,CONCAT(u.firstname, ' ', u.lastname) AS search_column
-    FROM users AS u
-    LEFT JOIN images AS i
-      ON u.image_id = i.image_id
-    LEFT JOIN cities AS ci
-      ON u.city_id = ci.city_id
-    LEFT JOIN countries AS co
-      ON ci.country_id = co.country_id
+    SELECT *
+    FROM vw_filtered_users
     ` 
 
-    const finalQ = arr.length ? q + clause + arr.join(' AND ') : q
-
-    console.log(finalQ)
-    console.log(params)
+    const finalQ = (arr.length ? q + clause + arr.join(' AND ') : q) + page
 
     db.query(finalQ, params, (err, data) => {
       if (err) return res.status(500).json(err)
+      if (!data.length) return res.status(200).json('')
 
-      console.log(moment(new Date).format("HH:MM:ss"))
-      console.log(data[0])
-      console.log(data.length)
-
-      return res.status(200).json(data)
+      return res.status(200).json(
+        {
+          data, 
+          nextId: parseInt(req.query.page) + 1,
+          previousId: parseInt(req.query.page) - 1
+        }
+      )
     })
   })
 }

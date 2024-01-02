@@ -1,6 +1,7 @@
-import React from 'react'
-import './explore-page.scss'
 import { Map, MapAside } from '../../components'
+
+import './explore-page.scss'
+
 
 function ExplorePage() {
   return (

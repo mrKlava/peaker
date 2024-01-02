@@ -20,6 +20,7 @@ function Aside({ userID = null }) {
   userID = userID ? userID : currentUser.user_id
 
   const { isLoading, error, data } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['user'],
     queryFn: async () => {
       try {
@@ -34,6 +35,7 @@ function Aside({ userID = null }) {
   })
 
   const { isLoading: isLoadingFollowing, data: following } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['following', userID],
     queryFn: async () => {
       try {
@@ -48,10 +50,13 @@ function Aside({ userID = null }) {
   })
 
   const { isLoading: isLoadingFollowers, data: followers } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['followers', userID],
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/follow/ers?userID=" + userID)
+
+        console.log("/follow/ers?userID=" + userID)
 
         return resp.data
 
@@ -95,7 +100,7 @@ function Aside({ userID = null }) {
 
   return (
     <aside className='aside'>
-      { isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} /> }
+      {isUpdate && <UserUpdate setIsUpdate={setIsUpdate} user={data} />}
 
       {
         isLoading
@@ -108,23 +113,23 @@ function Aside({ userID = null }) {
               isLoadingFollowers || isLoadingFollowing
                 ? <Loading />
                 : <section className='aside-social'>
-                    <div className='aside-social_stats'>
-                      <div>
-                        <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
-                      </div>
-                      <div>
-                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
-                      </div>
+                  <div className='aside-social_stats'>
+                    <div>
+                      <Link to={`/users?followers=${data.user_id}`}><span>Followers</span>: {followers.length}</Link>
                     </div>
+                    <div>
+                      <Link to={`/users?following=${data.user_id}`}><span>Following</span>: {following.length}</Link>
+                    </div>
+                  </div>
 
-                    {
-                      data.user_id === currentUser.user_id
-                        ? <Button onClick={handleEdit}>Edit</Button>
-                        : followers.includes(currentUser.user_id)
-                          ? <Button onClick={handleFollow}>Following</Button>
-                          : <Button onClick={handleFollow}>Follow</Button>
-                    }
-                  </section>
+                  {
+                    data.user_id === currentUser.user_id
+                      ? <Button onClick={handleEdit}>Edit</Button>
+                      : followers.includes(currentUser.user_id)
+                        ? <Button onClick={handleFollow}>Following</Button>
+                        : <Button onClick={handleFollow}>Follow</Button>
+                  }
+                </section>
             }
 
             <Card className='aside-bio'>

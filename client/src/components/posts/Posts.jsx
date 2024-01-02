@@ -1,35 +1,75 @@
-import React from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInView } from 'react-intersection-observer'
 import { httpRequest } from '../../axios'
-import Post from '../post/Post'
+import { Button, Loading, TitleMain } from '../../UI'
+import { Post } from '../../components'
 
 import '../feed/feed.scss'
 
-function Posts({userID = null}) {
+function Posts({ userID = null }) {
+  const { ref, inView } = useInView()
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['posts'], 
-    queryFn: async () => {
+  const {
+    status,
+    data,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    refetchOnWindowFocus: false,
+    queryKey: ['users'],
+    queryFn: async ({ pageParam }) => {
       try {
-        const resp = await httpRequest.get("/posts/user/"+userID)
-        
+        const resp = await httpRequest.get("/posts/user/" + userID + '?page=' + pageParam)
+
         return resp.data
 
       } catch (err) {
         console.log(err)
       }
-
-    }
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
   })
-  
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, inView])
+
   return (
     <section className='post-feed'>
       {
-        isLoading
-        ? 'loading'
-        : error
-          ? 'error'
-          :  data.length ? data.map(post => <Post key={post.post_id} post={post} />) : <h1>No posts found</h1>
+        status === 'pending'
+          ? <Loading />
+          : data.pages[0]
+            ? <>
+              <section className="users-cards">
+                {
+                  data.pages.map((page) => {
+                    return page ? page.data.map((post) => <Post key={post.post_id} post={post} />) : null
+                  })
+                }
+              </section>
+              <div className="post-feed_load">
+                {
+                  isFetchingNextPage
+                    ? <Loading />
+                    : hasNextPage
+                      ? <Button
+                        forwardRef={ref}
+                        onClick={() => fetchNextPage()}
+                        disabled={!hasNextPage || isFetchingNextPage}
+                      >
+                        Load More
+                      </Button>
+                      : null
+                }
+              </div>
+            </>
+            : <TitleMain>No Posts found</TitleMain>
       }
     </section>
   )

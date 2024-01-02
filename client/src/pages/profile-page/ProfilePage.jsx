@@ -4,11 +4,14 @@ import { useQuery } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { useLocation } from 'react-router-dom'
 
-import './profile-page.scss'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/authContext'
 
+import './profile-page.scss'
+
 function ProfilePage() {
+
+
   // const [userID, setUserID] = useState(parseInt(useLocation().pathname.split("/")[2]))
   const {currentUser} = useContext(AuthContext)
 
@@ -22,6 +25,9 @@ function ProfilePage() {
     // setUserID()
     console.log('changed user id')
   }, [userID]) 
+
+  useEffect(() => {window.scrollTo(0, 0)}, [])
+
   return (
     <>
       <Navbar />
