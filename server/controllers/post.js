@@ -26,11 +26,26 @@ export const getPosts = (req, res) => {
     WHERE f.user_id = ?
       OR p.user_id = ?
     ORDER BY p.created DESC
+    LIMIT ?, 10
     `  
-    db.query(q, [user.id, user.id], (err, data) => {
-      if (err) return res.status(500).json(err)
+    // db.query(q, [user.id, user.id], (err, data) => {
+    //   if (err) return res.status(500).json(err)
+
       
-      return res.status(200).json(data)
+    //   return res.status(200).json(data)
+    // })
+
+    db.query(q, [user.id, user.id, parseInt(req.query.page) * 10], (err, data) => {
+      if (err) return res.status(500).json(err)
+      if (!data.length) return res.status(200).json('')
+
+      return res.status(200).json(
+        {
+          data, 
+          nextId: parseInt(req.query.page) + 1,
+          previousId: parseInt(req.query.page) - 1
+        }
+      )
     })
   })
 
@@ -50,12 +65,20 @@ export const getUserPosts = (req, res) => {
       ON u.image_id = i.image_id
     WHERE p.user_id = ?
     ORDER BY p.created DESC
-  `
+    LIMIT ?, 10
 
-  db.query(q, [req.params.userID], (err, data) => {
+  `
+  db.query(q, [req.params.userID, parseInt(req.query.page) * 10], (err, data) => {
     if (err) return res.status(500).json(err)
-      
-    return res.status(200).json(data)
+    if (!data.length) return res.status(200).json('')
+
+    return res.status(200).json(
+      {
+        data, 
+        nextId: parseInt(req.query.page) + 1,
+        previousId: parseInt(req.query.page) - 1
+      }
+    )
   })
 }
 

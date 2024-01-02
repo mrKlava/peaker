@@ -2,6 +2,13 @@
 
 .users {
   &-main {
+    &_load {
+      margin: 3rem auto;
+      text-align: center;
+    }
 
+    .title-main {
+      text-align: center;
+    }
   }
 }

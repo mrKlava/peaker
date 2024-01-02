@@ -8,8 +8,11 @@ import './users-filter.scss'
 function UsersFilter({setSearchParams}) {
   const [inputs, setInputs] = useState({search: '', country_id: '', city_id: ''})
 
-  /* Fetch Countries */
+  /* Fetch Data */
+
+  // countries
   const { isLoading: isLoadingCountries, data: countries } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['countries'],
     queryFn: async () => {
       try {
@@ -23,8 +26,9 @@ function UsersFilter({setSearchParams}) {
     }
   })
 
-  /* Fetch Cities */
+  // cities
   const { isLoading: isLoadingCities, data: cities } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['cities'],
     queryFn: async () => {
       try {
@@ -37,20 +41,23 @@ function UsersFilter({setSearchParams}) {
       }
     }
   })
-
   
+  /* Handle inputs */
+
+  // handle input change - controlled inputs
   const handleChange = (e) => {
     setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }))
   }
-  
 
+  // handle submit of filters -> updated search queries
   const handleClick = () => {
-    setSearchParams(inputs)
-  }
+    const params = {}
+    for (const [key, value] of Object.entries(inputs)) {
+      if (value) params[key] = value
+    }
 
-  useEffect(() => {
-    console.log(inputs)
-  }, [inputs])
+    setSearchParams(params)
+  }
 
   return (
     <Card className="users-filter">
@@ -70,7 +77,7 @@ function UsersFilter({setSearchParams}) {
           onChange={handleChange}
           value={inputs.country_id ? inputs.country_id : ''}
         >
-          <option value="null" default>Select country</option>
+          <option value="" default>Select country</option>
           {
             isLoadingCountries
               ? null
@@ -84,7 +91,7 @@ function UsersFilter({setSearchParams}) {
           value={inputs.city_id ? inputs.city_id : ''}
 
         >
-          <option value="null" default>Select city</option>
+          <option value="" default>Select city</option>
           {
             isLoadingCities
               ? null

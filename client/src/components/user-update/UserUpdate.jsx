@@ -19,6 +19,7 @@ function UserUpdate({ setIsUpdate, user }) {
 
   /* Fetch Countries */
   const { isLoading: isLoadingCountries, data: countries } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['countries'],
     queryFn: async () => {
       try {
@@ -34,6 +35,7 @@ function UserUpdate({ setIsUpdate, user }) {
 
   /* Fetch Cities */
   const { isLoading: isLoadingCities, data: cities } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['cities', inputs.country_id],
     queryFn: async () => {
       try {

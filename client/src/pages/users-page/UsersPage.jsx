@@ -1,69 +1,89 @@
 import React, { useEffect, useState } from 'react'
-import './user-page.scss'
 import { UsersCards, UsersFilter } from '../../components'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useInView } from 'react-intersection-observer'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
-import { Loading } from '../../UI'
+import { Button, Loading, TitleMain } from '../../UI'
 import { useSearchParams } from 'react-router-dom'
 
+import './user-page.scss'
+
 function UsersPage() {
+  const { ref, inView } = useInView() 
+
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const queryClient = useQueryClient()
- 
   const setEndpoint = () => {
     const params = []
-    for (const entry of searchParams.entries()) {
-      if (entry[1]) {
-        params.push(`${entry[0]}=${entry[1]}`)
+    for (const [key, value] of searchParams.entries()) {
+      if (value) {
+        params.push(`${key}=${value}`)
       }
     }
   
-    return '/users' + (params.length ? '/filter?' + params.join('&') : '')
+    return '/filter?' + (params.length ? params.join('&') + '&' : '') + 'page=' 
   }
  
   const endPoint = setEndpoint()
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['users'],
-    queryFn: async () => {
+  const {
+    status,
+    data,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    refetchOnWindowFocus: false,
+    queryKey: ['users', endPoint],
+    queryFn: async ({pageParam}) => {
       try {
-        const resp = await httpRequest.get(endPoint)
+        const resp = await httpRequest.get('/users' + endPoint + pageParam)
 
         return resp.data
 
       } catch (err) {
         console.log(err)
       }
-    }
-  })
-
-  const mutation = useMutation({
-    mutationFn: () => {
-      return httpRequest.get(endPoint)
     },
-    onSuccess: () => {
-      console.log(data)
-      queryClient.invalidateQueries(["users"])
-    }
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextId ?? undefined,
   })
 
   useEffect(() => {
-    console.log(endPoint)
-    mutation.mutate()
-  }, [searchParams])
-  
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, inView])
+
   return (
     <main className="users-main">
       <UsersFilter setSearchParams={setSearchParams}/>
       {
-        isLoading 
+        status === 'pending'
         ? <Loading />
-        : <UsersCards users={data} />
+        : data.pages[0]
+          ? <>
+              <section className="users-cards">
+                { data.pages.map((page, i) => <UsersCards key={i} users={page.data} />) }
+              </section>
+              <div className="users-main_load">
+              {
+                isFetchingNextPage
+                ? <Loading />
+                : hasNextPage
+                  ? <Button
+                      forwardRef={ref}
+                      onClick={() => fetchNextPage()}
+                      disabled={!hasNextPage || isFetchingNextPage}
+                    >
+                    Load More
+                    </Button>
+                  : null
+              }
+              </div>
+          </>
+          : <TitleMain>No users found</TitleMain>
       }
-
-        {/* <Loading />
-        <UsersCards users={data} /> */}
     </main>
   )
 }

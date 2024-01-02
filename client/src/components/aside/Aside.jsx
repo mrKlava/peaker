@@ -20,6 +20,7 @@ function Aside({ userID = null }) {
   userID = userID ? userID : currentUser.user_id
 
   const { isLoading, error, data } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['user'],
     queryFn: async () => {
       try {
@@ -34,6 +35,7 @@ function Aside({ userID = null }) {
   })
 
   const { isLoading: isLoadingFollowing, data: following } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['following', userID],
     queryFn: async () => {
       try {
@@ -48,6 +50,7 @@ function Aside({ userID = null }) {
   })
 
   const { isLoading: isLoadingFollowers, data: followers } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['followers', userID],
     queryFn: async () => {
       try {

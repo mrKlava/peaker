@@ -14,6 +14,7 @@ function UsersCard({ user }) {
   const queryClient = useQueryClient()
 
   const { isLoading: isLoadingFollowers, error, data: followers } = useQuery({
+    refetchOnWindowFocus: false,
     queryKey: ['followers', user.user_id],
     queryFn: async () => {
       try {
@@ -28,6 +29,7 @@ function UsersCard({ user }) {
   })
 
   const mutationFollow = useMutation({
+    refetchOnWindowFocus: false,
     mutationKey: ['followers'],
     mutationFn: async (isFollowed) => {
 
