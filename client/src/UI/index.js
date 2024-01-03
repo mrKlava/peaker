@@ -2,6 +2,7 @@ export { default as Avatar } from './avatar/Avatar'
 export { default as Author } from './author/Author'
 
 export { default as Button } from './buttons/Button'
+export { default as Quantity } from './quantity/Quantity'
 
 export { default as TitleMain } from './titles/main/TitleMain'
 export { default as TitleSection } from './titles/section/TitleSection'

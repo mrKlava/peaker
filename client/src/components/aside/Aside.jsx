@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
-import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
+import { Link } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UserUpdate } from '../../components'
 import { AuthContext } from '../../context/authContext'
-import { Button, Card, Loading, Text, TitleSection } from '../../UI'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button, Card, Loading, Quantity, Text, TitleSection } from '../../UI'
 import { httpRequest } from '../../axios'
+import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
 
 import './aside.scss'
-import { Link } from 'react-router-dom'
 
 function Aside({ user }) {
   const queryClient = useQueryClient()
@@ -93,10 +93,10 @@ function Aside({ user }) {
           : <section className='aside-social'>
             <div className='aside-social_stats'>
               <div>
-                <Link to={`/users?followers=${user.user_id}`}><span>Followers</span>: {followers.length}</Link>
+                <Link to={`/users?followers=${user.user_id}`}><span>Followers</span>: <Quantity number={followers.length} /></Link>
               </div>
               <div>
-                <Link to={`/users?following=${user.user_id}`}><span>Following</span>: {following.length}</Link>
+                <Link to={`/users?following=${user.user_id}`}><span>Following</span>: <Quantity number={following.length} /></Link>
               </div>
             </div>
 

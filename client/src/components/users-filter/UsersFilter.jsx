@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Button, Card, InputSelect, InputText, TitleSection } from '../../UI'
 import { httpRequest } from '../../axios'

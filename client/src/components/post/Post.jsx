@@ -1,31 +1,30 @@
 import { useContext, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthContext } from '../../context/authContext'
-import { Author, Button, Card, Text } from '../../UI'
+import { Author, Button, Card, Quantity, Text } from '../../UI'
 import { Comments } from '../../components'
 import { httpRequest } from '../../axios'
 
 import { ReactComponent as IconLike } from '../../assets/images/icons/IconLike.svg'
 import { ReactComponent as IconComment } from '../../assets/images/icons/IconComment.svg'
-import { ReactComponent as IconShare } from '../../assets/images/icons/IconShare.svg'
 import { ReactComponent as IconSend } from '../../assets/images/icons/IconSend.svg'
 import { ReactComponent as IconDelete } from '../../assets/images/icons/IconDelete.svg'
+// import { ReactComponent as IconShare } from '../../assets/images/icons/IconShare.svg'
 
 import './post.scss'
 
 function Post({ post }) {
-  const {currentUser} = useContext(AuthContext)
-  const [isCommentsVisible, setIsCommentsVisible] = useState(false)
-  const [commentText, setCommentText] = useState("")
-
   const queryClient = useQueryClient()
+  const { currentUser } = useContext(AuthContext)
 
-  const { isLoading, error, data = [] } = useQuery({
+  const [ isCommentsVisible, setIsCommentsVisible ] = useState(false)
+  const [ commentText, setCommentText ] = useState("")
+
+  const { isLoading: isLoadingLikes, data: likes = [] } = useQuery({
     queryKey: ['likes', post.post_id], 
     queryFn: async () => {
       try {
-        const resp = await httpRequest.get("/likes?postID="+post.post_id)
-        // console.log(resp.data)
+        const resp = await httpRequest.get("/likes?postID=" + post.post_id)
 
         return resp.data
 
@@ -34,11 +33,24 @@ function Post({ post }) {
       }
     }
   })
-  
 
+  const { isLoading: isLoadingComments, data: comments = [] } = useQuery({
+    queryKey: ['comments', post.post_id], 
+    queryFn: async () => {
+      try {
+        const resp = await httpRequest.get("/comments?postID=" + post.post_id)
+       
+        return resp.data
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  })
+  
   const mutationPost = useMutation({
     mutationFn: (postID) => {
-      return httpRequest.delete("/posts/"+postID)
+      return httpRequest.delete("/posts/" + postID)
     }, 
     onSuccess: () => {
       queryClient.invalidateQueries(['posts'])
@@ -56,11 +68,9 @@ function Post({ post }) {
 
   const mutationLike = useMutation({
     mutationFn: async (isLiked) => {
-      // if (isLiked) return httpRequest.delete('/likes?postID='+post.post_id)
-      // return httpRequest.post('/likes?postID='+post.post_id)
+      if (isLiked) return await httpRequest.delete('/likes?postID=' + post.post_id)
 
-      if (isLiked) return await httpRequest.delete('/likes?postID='+post.post_id)
-      return await httpRequest.post('/likes', {postID: post.post_id})
+      return await httpRequest.post('/likes', { postID: post.post_id })
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["likes"])
@@ -69,7 +79,7 @@ function Post({ post }) {
 
 
   const handleLike = () => {
-    mutationLike.mutate(data.includes(currentUser.user_id))
+    mutationLike.mutate(likes.includes(currentUser.user_id))
   }
 
   const handleChange = (e) => {
@@ -79,9 +89,10 @@ function Post({ post }) {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    mutationComment.mutate({text: commentText, postId: post.post_id})
-
-    setCommentText("")
+    if (commentText) {
+      mutationComment.mutate({text: commentText, postId: post.post_id})
+      setCommentText("")
+    }
   } 
 
   const handleDelete = () => {
@@ -114,12 +125,12 @@ function Post({ post }) {
           <li className="post-footer_action">
             <button onClick={handleLike}>
               {
-                data.includes(currentUser.user_id)
+                likes.includes(currentUser.user_id)
                 ? <IconLike className="liked" />
                 : <IconLike />
               }
             </button>
-            <span>{ data && data.length }</span>
+            { likes && <Quantity number={likes.length } /> }
           </li>
           {/* <li className="post-footer_action">
             <button><IconShare /></button>
@@ -128,7 +139,7 @@ function Post({ post }) {
             <button>
               <IconComment />
             </button>
-            {/* <span>{ post.comments}</span> */}
+            { comments && <Quantity number={comments.length } /> }
           </li>
         </ul>
         <div className="post-footer_comment">
@@ -136,9 +147,7 @@ function Post({ post }) {
           <button onClick={handleSubmit}><IconSend /></button>
         </div>
       </div>
-      {isCommentsVisible && <Comments postId={post.post_id} />}
-
-      {/* <Comments postId={post.post_id} /> */}
+      {isCommentsVisible && <Comments comments={comments} />}
     </Card>
   )
 }
