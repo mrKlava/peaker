@@ -2,10 +2,10 @@ import React from 'react'
 import './text.scss'
 
 function Text({children, size='md', className=''}) {
-  const classList = className ? className + ' text' : 'text'
+  const classes = className ? className + ' text' : 'text'
 
   return (
-    <p className={classList}>{children}</p>
+    <p className={classes}>{children}</p>
   )
 }
 

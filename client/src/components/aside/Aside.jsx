@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UserUpdate } from '../../components'
 import { AuthContext } from '../../context/authContext'
-import { Button, Card, Loading, Text, TitleSection } from '../../UI'
+import { Button, Card, Loading, Quantity, Text, TitleSection } from '../../UI'
 import { httpRequest } from '../../axios'
 import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
 
@@ -93,10 +93,10 @@ function Aside({ user }) {
           : <section className='aside-social'>
             <div className='aside-social_stats'>
               <div>
-                <Link to={`/users?followers=${user.user_id}`}><span>Followers</span>: {followers.length}</Link>
+                <Link to={`/users?followers=${user.user_id}`}><span>Followers</span>: <Quantity number={followers.length} /></Link>
               </div>
               <div>
-                <Link to={`/users?following=${user.user_id}`}><span>Following</span>: {following.length}</Link>
+                <Link to={`/users?following=${user.user_id}`}><span>Following</span>: <Quantity number={following.length} /></Link>
               </div>
             </div>
 
