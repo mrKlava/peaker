@@ -87,25 +87,16 @@ export const getUser = (req, res) => {
   const userID = req.params.userID
 
   const q = `
-  SELECT u.*
-        ,ci.city_id
-        ,ci.country_id
-        ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ', ', co.name)) as location
-        ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img
-  FROM users AS u
-  LEFT JOIN images AS i
-    ON u.image_id = i.image_id
-  LEFT JOIN cities AS ci
-    ON u.city_id = ci.city_id
-  LEFT JOIN countries AS co
-    ON ci.country_id = co.country_id
-  WHERE u.user_id = ?
+  SELECT *
+  FROM vw_users
+  WHERE user_id = ?
   `
 
   db.query(q, [userID], (err, data) => {
     if (err) return res.status(500).json(err)
+    if (!data[0]) return res.status(200).json('') 
 
-    const {hash, ...user} = data[0]
+    const {...user} = data[0]
 
     return res.status(200).json({...user, birthday: moment(user.birthday).format("YYYY-MM-DD")})
   })

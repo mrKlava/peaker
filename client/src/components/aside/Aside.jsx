@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
-import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
+import { Link } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UserUpdate } from '../../components'
 import { AuthContext } from '../../context/authContext'
 import { Button, Card, Loading, Text, TitleSection } from '../../UI'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
+import { ReactComponent as IconLocation } from '../../assets/images/icons/IconLocation.svg'
 
 import './aside.scss'
-import { Link } from 'react-router-dom'
 
 function Aside({ user }) {
   const queryClient = useQueryClient()

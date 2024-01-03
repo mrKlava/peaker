@@ -1,4 +1,5 @@
 import { Author, Text } from '../../UI'
+
 import './comment.scss'
 
 function Comment({ comment }) {

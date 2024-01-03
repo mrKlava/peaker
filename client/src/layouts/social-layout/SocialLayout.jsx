@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
-import { Aside, Header, Navbar } from '../../components'
-import { Outlet, useLocation } from 'react-router-dom'
-
-import './social-layout.scss'
-import { AuthContext } from '../../context/authContext'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { Aside, Header, Navbar } from '../../components'
+import { AuthContext } from '../../context/authContext'
 import { httpRequest } from '../../axios'
 import { Loading } from '../../UI'
+
+import './social-layout.scss'
 
 function SocialLayout() {
   const { currentUser } = useContext(AuthContext)
@@ -45,10 +45,12 @@ function SocialLayout() {
         {
           isLoading
             ? <Loading />
-            : <div className='main-social'>
-            <Aside user={data}/>
-            <Outlet />
-          </div>
+            : data
+              ? <div className='main-social'>
+                  <Aside user={data} />
+                  <Outlet />
+                </div>
+              : <Navigate to="/" />
 
         }
 

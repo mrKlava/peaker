@@ -52,8 +52,6 @@ function UserUpdate({ setIsUpdate, user }) {
   const handleImage = (e) => {
     const file = e.target.files[0]
 
-    console.log(e.target.files)
-
     // check if image is less than 4mb
     if (file.type !== "image/jpeg") {
       setError('Image must be jpg')

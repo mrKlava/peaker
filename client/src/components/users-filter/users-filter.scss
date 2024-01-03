@@ -9,5 +9,11 @@
     &_title {
       margin-bottom: 1rem;
     }
+
+    .form-row {
+      @media (max-width: $screen-tablet-small) {
+        gap: 1rem;
+      }
+    }
   }
 }

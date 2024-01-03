@@ -1,5 +1,9 @@
 @use '../../assets/styles/variables.scss' as *;
 
 .comments {
-  
+  margin-top: 1rem;
+
+  &-no {
+    text-align: center;
+  }
 }

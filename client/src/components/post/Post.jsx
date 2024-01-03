@@ -24,7 +24,7 @@ function Post({ post }) {
     queryKey: ['likes', post.post_id], 
     queryFn: async () => {
       try {
-        const resp = await httpRequest.get("/likes?postID="+post.post_id)
+        const resp = await httpRequest.get("/likes?postID=" + post.post_id)
         // console.log(resp.data)
 
         return resp.data
@@ -35,7 +35,6 @@ function Post({ post }) {
     }
   })
   
-
   const mutationPost = useMutation({
     mutationFn: (postID) => {
       return httpRequest.delete("/posts/"+postID)
@@ -79,9 +78,10 @@ function Post({ post }) {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    mutationComment.mutate({text: commentText, postId: post.post_id})
-
-    setCommentText("")
+    if (commentText) {
+      mutationComment.mutate({text: commentText, postId: post.post_id})
+      setCommentText("")
+    }
   } 
 
   const handleDelete = () => {
