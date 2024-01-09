@@ -1,23 +1,23 @@
 import '../input.scss'
 import './input-select.scss'
 
-function InputText(
+function InputSelect(
   {
     children,
     className = '',
     id,
-    type = 'text',
     label = null,
     placeholder = null,
     name = null,
     onChange,
-    value
+    value,
+    required
   }) {
   const classes = className ? className + ' input-select' : 'input-select'
 
   return (
     <div className={classes}>
-      {label && <label htmlFor={name}>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}{required ? <span> *</span> : null}
       <div className='input-container'>
         <select
           name={name}
@@ -33,4 +33,4 @@ function InputText(
   )
 }
 
-export default InputText
+export default InputSelect

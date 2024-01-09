@@ -1,19 +1,20 @@
 import { useContext } from 'react'
 import { Author, Button, Card, Loading } from '../../UI'
-
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { AuthContext } from '../../context/authContext'
 
 import './users-card.scss'
 
+
 function UsersCard({ user }) {
+  const queryClient = useQueryClient()
 
   const { currentUser } = useContext(AuthContext)
 
-  const queryClient = useQueryClient()
+  /* Get followers for user */
 
-  const { isLoading: isLoadingFollowers, error, data: followers } = useQuery({
+  const { isLoading: isLoadingFollowers, data: followers } = useQuery({
     refetchOnWindowFocus: false,
     queryKey: ['followers', user.user_id],
     queryFn: async () => {
@@ -27,6 +28,9 @@ function UsersCard({ user }) {
       }
     }
   })
+
+
+  /* Handle follow */
 
   const mutationFollow = useMutation({
     refetchOnWindowFocus: false,

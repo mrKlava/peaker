@@ -16,17 +16,6 @@ $product-main:          #FF6B00;
 $noir:                  #000;
 $blanche:               #fff;
 
-$xiketic:               #0c0c16;
-$crimson-ua:            #950f2b;
-$flax:                  #eadb7c;
-$carolina-blue:         #4ba0d4;
-
-$rouge:                 #f30000;
-
-// $new-york-pink:         #de8682ff;
-// $mauve-taupe:           #8d5c72ff;
-// $space-cadet:           #1b1d3eff;
-
      // BG
 $bg-body:               $deep-green;
 $bg-navbar:             $riche-green;
@@ -34,50 +23,41 @@ $bg-navbar:             $riche-green;
 $bg-card-dark:          $khaki-green;
 $bg-card-light:         $beige;
 
-$bg-btn-prm:            $product-main;
-
 $bg-input:              $beige;
 
-// $bg-btn-prm-hover:      lighten($product-main, 10%);
+$bg-btn-prm:            $product-main;
 $bg-btn-prm-hover:      darken($product-main, 5%);
-$bg-btn-sec:            transparent;
-$bg-btn-sec-hover:      $carolina-blue;
+
+
         // Side
 $bg-menu:               $deep-green;
-// $bg-menu:               $riche-green;
 $bg-menu-list:          $beige;
 $bg-menu-item:          $riche-green;
-// $bg-menu-item:          $deep-green;
 $bg-menu-item-hover:    $khaki-green;
+
         // Map
 $bg-map:                $deep-blue;
 
-
-
     // FONTS
-$color-suptitle:        $flax;
+
 $color-title:           lighten($product-main, 20%);
 $color-text:            $blanche;
-$color-text-dark:       $xiketic;
+$color-text-dark:       $noir;
 $color-error:           $product-main;
 
-$color-placeholder:     $blanche;
+$color-input:           $blanche;
+$color-placeholder:     lighten($noir, 30%);
 
         // Nav-link
 $color-navlink:         $blanche;
-$color-navlink-hover:   $flax;
+$color-navlink-hover:   $product-main;
+
         // Btn
 $color-btn-prm:         $blanche;
-$color-btn-sec:         $carolina-blue;
-$color-btn-sec-hover:   $blanche;
-        // Arrow
-$color-arrow:           $flax;
-$color-arrow-hover:     darken($flax, 20%);
+
         // Other
 $color-input:           $blanche;
 $color-input-placeholder:darken($blanche, 30%);
-
-
 
 
 //////////////////////////////////////
@@ -97,14 +77,14 @@ $font-text:             'Alumni Sans', sans-serif;
 $font-link:             'Inter', sans-serif;
 
     // SIZE
-    
 $text-base:             16px;    // 1rem
-// Titles
+
 $text-xl:               8rem;    // 128px 
 $text-lg:               4rem;    // 64px
 $text-md:               2rem;    // 32px
 $text-sm:               1.25rem; // 24px
 $text-xs:               .75rem;  // 16px
+
 
 //////////////////////////////////////
 //           SCREEN SIZE            //
@@ -114,22 +94,19 @@ $text-xs:               .75rem;  // 16px
 $screen-xs:             320px;
 $screen-xs-min:         $screen-xs;             // 320px
 $screen-phone:          $screen-xs-min;         // 320px
-// $screen-xs-max:         $screen-sm-min - 1;   // 479px
         // Small screen / phone
 $screen-sm:             480px;
 $screen-sm-min:         $screen-sm;             // 480px
 $screen-tablet-small:   $screen-sm-min;         // 480px
-// $screen-sm-max:         ($screen-md-min - 1);   // 767px
         // Medium screen / tablet
 $screen-md:             768px;
 $screen-md-min:         $screen-md;             // 768px
 $screen-tablet:          $screen-md-min;         // 768px
-// $screen-md-max:         ($screen-lg-min - 1);   // 991px
         // Medium screen / desktop small
 $screen-lg:             992px;
 $screen-lg-min:         $screen-lg;             // 992px
 $screen-desktop-min:    $screen-lg-min;         // 992px
-// Large screen / desktop
+        // Large screen / desktop
 $screen-xl:             1200px;
 $screen-xl-min:         $screen-xl;             // 1200px
 $screen-desktop:        $screen-xl-min;         // 1200px

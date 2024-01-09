@@ -79,3 +79,12 @@ main {
   margin: 0 auto;
   max-width: 1440px;
 }
+
+.svg-action {
+  svg {
+    transition: fill linear .2s;
+    &:hover {
+      fill: $product-main
+    }
+  }
+}

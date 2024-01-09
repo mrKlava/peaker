@@ -1,14 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.scss'
+import { RouterProvider } from 'react-router-dom'
 
 // import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
-import { RouterProvider } from 'react-router-dom'
 import { AuthContextProvider } from './context/authContext'
+import { MapContextProvider } from './context/mapContext'
+import { PostsContextProvider } from './context/postsContext'
 
 import router from './router'
-import { PostsContextProvider } from './context/postsContext'
+
+import './index.scss'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,9 +22,11 @@ root.render(
     {/* <QueryClientProvider client={queryCLient}> */}
       <AuthContextProvider>
         <PostsContextProvider>
-          <RouterProvider router={router} />
+          <MapContextProvider>
+            <RouterProvider router={router} />
+          </MapContextProvider>
         </PostsContextProvider>
       </AuthContextProvider>
     {/* </QueryClientProvider> */}
   </React.StrictMode>
-);
+)

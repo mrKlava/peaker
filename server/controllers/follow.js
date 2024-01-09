@@ -1,9 +1,11 @@
 import { db } from "../connect.js"
 import jwt from "jsonwebtoken"
 
+
+/* Get Followed */
+
 export const getFollowing = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -17,12 +19,13 @@ export const getFollowing = (req, res) => {
     db.query(q, [req.query.userID], (err, data) => {
       if (err) return res.status(500).json(err)
 
-      
       return res.status(200).json(data.map(user => user.following_user_id))
     })
   })
 }
 
+
+/* Get Followers */
 
 export const getFollowers = (req, res) => {
   const token = req.cookies.accessToken
@@ -37,17 +40,17 @@ export const getFollowers = (req, res) => {
     FROM following
     WHERE following_user_id = ?
     `  
-
   
     db.query(q, [req.query.userID], (err, data) => {
       if (err) return res.status(500).json(err)
 
-      
       return res.status(200).json(data.map(user => user.user_id))
     })
   })
 }
 
+
+/* Follow user */
 
 export const addFollow = (req, res) => {
   const token = req.cookies.accessToken
@@ -66,17 +69,17 @@ export const addFollow = (req, res) => {
       user.id,
       req.body.userID
     ]
-    console.log(params)
 
     db.query(q, [params], (err, data) => {
       if (err) return res.status(500).json(err)
-
-      console.log(data)
 
       return res.status(200).json('User have been followed')
     })
   })
 }
+
+
+/* Un-Follow user */
 
 export const deleteFollow = (req, res) => {
   const token = req.cookies.accessToken
@@ -92,12 +95,10 @@ export const deleteFollow = (req, res) => {
       AND user_id = ?
     `
 
-    console.log([req.query.userID, user.id])
-
     db.query(q, [req.query.userID, user.id], (err, data) => {
       if (err) return res.status(500).json(err)
 
-      return res.status(200).json('User have been unfollowed')
+      return res.status(200).json('User have been un-followed')
     })
   })
 }

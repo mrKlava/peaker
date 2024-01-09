@@ -1,6 +1,6 @@
-import React from 'react'
-import './map-menu.scss'
 import { HeaderExplore, MapFilters } from '../../components'
+import './map-menu.scss'
+
 
 function MapMenu() {
   return (

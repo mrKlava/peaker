@@ -1,4 +1,3 @@
-import React from 'react'
 import './map-list.scss'
 
 function MapList() {

@@ -1,10 +1,11 @@
 import express from "express"
-import { getCountry
+import { getCountries
 } from "../controllers/country.js"
+
 
 const router = express.Router()
 
-router.get("/", getCountry)
+router.get("/",           getCountries)
 
 
 export default router

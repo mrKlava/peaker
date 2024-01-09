@@ -1,9 +1,11 @@
 import { db } from "../connect.js"
 import jwt from "jsonwebtoken"
 
+
+/* Get list of users who liked post */
+
 export const getLikes = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -23,9 +25,10 @@ export const getLikes = (req, res) => {
 }
 
 
+/* Like post */
+
 export const addLike = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -50,9 +53,11 @@ export const addLike = (req, res) => {
   })
 }
 
+
+/* Un-Like post */
+
 export const deleteLike = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -67,7 +72,7 @@ export const deleteLike = (req, res) => {
     db.query(q, [req.query.postID, user.id], (err, data) => {
       if (err) return res.status(500).json(err)
 
-      return res.status(200).json('Post has been unliked')
+      return res.status(200).json('Post has been un-liked')
     })
   })
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { httpRequest } from '../../axios'
 import { Button, Card, InputSelect, InputText, InputTextarea, TextError, TitleMain } from '../../UI'
@@ -7,18 +7,18 @@ import { ReactComponent as IconClose } from '../../assets/images/icons/IconClose
 import './user-update.scss'
 
 function UserUpdate({ setIsUpdate, user }) {
-  const [error, setError] = useState(null)
-  const [coverImg, setCoverImg] = useState(null)
-  const [profileImg, setProfileImg] = useState(null)
-  const [inputs, setInputs] = useState(user)
-
   const queryClient = useQueryClient()
 
+  const [ error, setError ] = useState(null)
+  const [ coverImg, setCoverImg ] = useState(null)
+  const [ profileImg, setProfileImg ] = useState(null)
+  const [ inputs, setInputs ] = useState(user)
 
   /* Fetch Countries */
+
   const { isLoading: isLoadingCountries, data: countries } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['countries'],
+    queryKey: ["countries"],
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/countries")
@@ -32,9 +32,10 @@ function UserUpdate({ setIsUpdate, user }) {
   })
 
   /* Fetch Cities */
+
   const { isLoading: isLoadingCities, data: cities } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['cities', inputs.country_id],
+    queryKey: ["cities", inputs.country_id],
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/cities/country?id=" + inputs.country_id)
@@ -47,20 +48,22 @@ function UserUpdate({ setIsUpdate, user }) {
     }
   })
 
+  /* Handle image */
 
-  /* handle image */
   const handleImage = (e) => {
     const file = e.target.files[0]
 
-    // check if image is less than 4mb
+    // check extension 
     if (file.type !== "image/jpeg") {
-      setError('Image must be jpg')
-
+      setError("Image must be jpg")
+      
       e.target.value = null;
       return null
     }
+    
+    // check if image is less than 4mb
     if (((file.size / 1024) / 1024).toFixed(4) > 4) {
-      setError('Image can not be larger than 4mb')
+      setError("Image can not be larger than 4mb")
 
       e.target.value = null;
       return null
@@ -69,75 +72,104 @@ function UserUpdate({ setIsUpdate, user }) {
     return file
   }
 
-  const upload = async (file, e) => {
-    e.preventDefault()
+  // const upload = async (file, e) => {
+  //   e.preventDefault()
 
-    try {
-      const formData = new FormData()
-      formData.append("file", file)
+  //   try {
+  //     const formData = new FormData()
+  //     formData.append("file", file)
 
-      console.log(formData)
+  //     console.log(formData)
 
-      debugger
-      const resp = await httpRequest.post("/upload/image", formData)
+  //     debugger
+  //     const resp = await httpRequest.post("/upload/image", formData)
 
-      console.log(resp.data)
+  //     console.log(resp.data)
 
-      return resp.data
+  //     return resp.data
 
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
+  // const uploadProfileImg = async () => {
+  //   try {
+  //     const formData = new FormData()
+  //     formData.append("file", profileImg)
 
-  const uploadProfileImg = async () => {
-    try {
-      const formData = new FormData()
-      formData.append("file", profileImg)
+  //     console.log(formData)
 
-      console.log(formData)
+  //     const resp = await httpRequest.post("/upload/image", formData)
 
-      const resp = await httpRequest.post("/upload/image", formData)
+  //     console.log(resp.data)
 
-      console.log(resp.data)
+  //     return resp.data
 
-      return resp.data
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
 
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  // const handleUpload = async (e) => {
+  //   e.preventDefault()
 
+  //   debugger
+  //   // let coverUrl = user.coverImg
+  //   let profileUrl = ""
 
-  const handleUpload = async (e) => {
-    e.preventDefault()
+  //   // if (coverImg) coverUrl = await upload()
+  //   // if (profileImg) profileUrl = await upload(profileImg, e)
+  //   if (profileImg) profileUrl = await uploadProfileImg(e)
+  // }
 
-    debugger
-    // let coverUrl = user.coverImg
-    let profileUrl = ""
-
-    // if (coverImg) coverUrl = await upload()
-    // if (profileImg) profileUrl = await upload(profileImg, e)
-    if (profileImg) profileUrl = await uploadProfileImg(e)
-  }
+  /* Update user */
 
   const mutation = useMutation({
     mutationFn: (user) => {
       return httpRequest.put("/users", user)
     },
     onSuccess: () => {
-      console.log('success')
       queryClient.invalidateQueries(["users"])
+      console.log('success')
     }
   })
 
   const handleChange = (e) => {
-    setInputs(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    const input = checkInputs(e)
+    console.log(input)
+    setInputs(prev => ({ ...prev, ...input }))
+    
+    
+  }
+
+  const checkInputs = (e) => {
+    const key = e.target.name
+    const value = e.target.value
+   
+    return {[key]: value}
+  }
+
+  const isError = () => {
+    const required = ['firstname', 'lastname', 'email', 'username']
+
+    for (const entry of Object.entries(inputs)) {
+      if (required.includes(entry[0]) && !entry[1]) {
+        setError(`${entry[0]} can not be empty`)
+
+        return true
+      }
+    }
+
+    return false
   }
 
   const updateUser = async (e) => {
     e.preventDefault()
+
+    if (error) return
+
+    if (inputs.firstname)
 
     try {
       mutation.mutate(inputs)
@@ -149,6 +181,9 @@ function UserUpdate({ setIsUpdate, user }) {
   }
 
 
+  useEffect(() => {
+    if (!isError()) setError(null)
+  }, [inputs])
 
   /* DEBUG */
 
@@ -160,7 +195,6 @@ function UserUpdate({ setIsUpdate, user }) {
     console.log(coverImg)
   }, [coverImg])
 
-
   useEffect(() => {
     console.log(user)
   }, [user])
@@ -171,7 +205,7 @@ function UserUpdate({ setIsUpdate, user }) {
     <div className="user-overlay">
 
       <Card className="user-update">
-        <div className='user-update_close'>
+        <div className="user-update_close">
           <button onClick={() => setIsUpdate(false)}><IconClose /></button>
         </div>
 
@@ -204,7 +238,7 @@ function UserUpdate({ setIsUpdate, user }) {
               <input type="file" id="coverImg" name="coverImg" accept="image/jpeg" onChange={(e) => setCoverImg(handleImage(e))} />
             </div>
           </div>
-          <Button onClick={handleUpload}>Upload</Button>
+          {/* <Button onClick={handleUpload}>Upload</Button> */}
         </div>
 
         <form>
@@ -248,26 +282,26 @@ function UserUpdate({ setIsUpdate, user }) {
 
             <div>
               <InputSelect
-                label='Gender'
+                label="Gender"
                 name="gender"
                 onChange={handleChange}
                 value={inputs.gender ? inputs.gender : ''}
               >
                 <option value="null" default>Select gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
               </InputSelect>
 
               <InputText
                 type="date"
-                label='Birth date'
+                label="Birth date"
                 name="birthday"
                 onChange={handleChange}
                 value={inputs.birthday ? inputs.birthday : ''}
               />
 
               <InputSelect
-                label='Country'
+                label="Country"
                 name="country_id"
                 onChange={handleChange}
                 value={inputs.country_id ? inputs.country_id : ''}
@@ -281,7 +315,7 @@ function UserUpdate({ setIsUpdate, user }) {
               </InputSelect>
 
               <InputSelect
-                label='City'
+                label="City"
                 name="city_id"
                 onChange={handleChange}
                 value={inputs.city_id ? inputs.city_id : ''}
@@ -300,7 +334,7 @@ function UserUpdate({ setIsUpdate, user }) {
             <InputText
               type="email"
               name="email"
-              label='Email'
+              label="Email"
               placeholder="Email ..."
               onChange={handleChange}
               value={inputs.email}
@@ -309,7 +343,7 @@ function UserUpdate({ setIsUpdate, user }) {
             <InputText
               type="text"
               name="username"
-              label='Username'
+              label="Username"
               placeholder="Username ..."
               onChange={handleChange}
               value={inputs.username}
