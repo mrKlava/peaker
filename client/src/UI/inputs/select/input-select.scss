@@ -27,13 +27,17 @@
       outline: none;
 
       background-color: $bg-card-light;
-      color: $color-placeholder;
+      color: $color-input;
 
       // padding: .325rem;
 
       & option {
         display: block;
         padding: 1rem;
+
+        &:first-child {
+          color: $color-placeholder;
+        }
       }
 
       &:focus {

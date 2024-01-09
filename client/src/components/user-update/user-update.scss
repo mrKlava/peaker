@@ -3,7 +3,6 @@
 .user {
   &-overlay {
     background-color: black;
-
     
     position: fixed;
     z-index: 999;
@@ -22,7 +21,6 @@
       
       height: 110vh;
     }
-    
   }
 
   &-update {
@@ -93,6 +91,10 @@
         width: 1.725rem;
         height: 1.725rem;
       }
+    }
+
+    .error {
+      margin-top: 1rem;
     }
   }
 

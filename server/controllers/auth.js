@@ -4,24 +4,13 @@ import jwt from "jsonwebtoken"
 import moment from "moment"
 
 
-/* LOGIN */
+/* Login */
 
 export const login = (req, res) => {
   // check if user exists by email
-
   const q = `
-  SELECT u.*
-        ,ci.city_id
-        ,ci.country_id
-        ,IF (u.city_id IS NULL, NULL, CONCAT(ci.name, ',', co.name)) as location
-        ,IF (i.image_id IS NULL, 'no-img.png', i.path) AS user_img 
-  FROM users AS u
-  LEFT JOIN images AS i
-    ON u.image_id = i.image_id 
-  LEFT JOIN cities AS ci
-    ON u.city_id = ci.city_id
-  LEFT JOIN countries AS co
-    ON ci.country_id = co.country_id
+  SELECT *
+  FROM vw_user
   WHERE email = ?
   `
 
@@ -34,7 +23,6 @@ export const login = (req, res) => {
 
     if (!checkPassword) return res.status(400).json("Wrong password or username")
 
-
     const { hash, ...user } = data[0] // extract user object without hashed password
     const token = jwt.sign({ id: user.user_id }, process.env.SECRET_KEY) // create token using user id 
 
@@ -42,12 +30,11 @@ export const login = (req, res) => {
       httpOnly: true,
 
     }).status(200).json({...user, birthday: moment(user.birthday).format("YYYY-MM-DD")}) // return user object
-
   })
 }
 
 
-/* REGISTER */
+/* Register */
 
 export const register = (req, res) => {
   // check if user exists by email
@@ -58,17 +45,19 @@ export const register = (req, res) => {
   `
 
   db.query(q, [req.body.email], (err, data) => {
-    if (err) return res.status(500).json({ "msg": "failed to check user" })
+    if (err) return res.status(500).json(err)
     if (data.length) return res.status(409).json("User already exists") // 409 trying create or update data already exists
 
-    // create new user
+    // create hashed password
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(req.body.password, salt)
-
+    
+    // create new user
     const q = `
       INSERT INTO users (firstname, lastname, email, username, hash, registered)
       VALUES (?)
     `
+
     const params = [
       req.body.firstname,
       req.body.lastname,
@@ -76,11 +65,10 @@ export const register = (req, res) => {
       req.body.email,
       hash,
       moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
-
     ]
 
     db.query(q, [params], (err, data) => {
-      if (err) return res.status(500).json({ "msg": "failed to create user" })
+      if (err) return res.status(500).json(err)
 
       return res.status(200).json("User has been created")
     })
@@ -88,10 +76,10 @@ export const register = (req, res) => {
 }
 
 
-/* LOGOUT */
+/* Logout */
 
 export const logout = (req, res) => {
-  res.clearCookie("accessToken", {
+  res.clearCookie("accessToken", { //remove token
     secure: true,
     sameSite: "none" // to be able to use different ports
   }).status(200).json("Successfully logout")

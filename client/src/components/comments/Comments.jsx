@@ -3,13 +3,13 @@ import { Text } from '../../UI'
 
 import './comments.scss'
 
-function Comments({comments}) {
+function Comments({ comments }) {
   return (
-    <div className='comments'>
+    <div className="comments">
     { 
       comments.length
       ? comments.map(comment => <Comment key={comment.comment_id} comment={comment} />)
-      : <Text className='comments-no'>No comments found</Text>
+      : <Text className="comments-empty">No comments found</Text>
     }
     </div>
   )

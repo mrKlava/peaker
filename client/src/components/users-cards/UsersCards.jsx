@@ -1,4 +1,3 @@
-import React from 'react'
 import { UsersCard } from '../../components'
 
 import './users-cards.scss'

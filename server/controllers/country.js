@@ -1,9 +1,13 @@
 import { db } from "../connect.js"
 
-export const getCountry = (req, res) => {
+
+/* Get Country list */
+
+export const getCountries = (req, res) => {
   const q = `
   SELECT *
   FROM countries
+  ORDER BY name ASC
   `  
   db.query(q, [], (err, data) => {
     if (err) return res.status(500).json(err)

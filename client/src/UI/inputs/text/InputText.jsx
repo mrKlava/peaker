@@ -18,7 +18,7 @@ function InputText(
 
   return (
     <div className={classes}>
-      {label && <label htmlFor={name}>{label}</label>}
+      {label && <label htmlFor={name}>{label}</label>}{required ? <span> *</span> : null}
       <div className='input-container'>
         <input
           type={type}

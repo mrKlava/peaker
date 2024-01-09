@@ -13,7 +13,7 @@ function UsersFilter({setSearchParams}) {
   // countries
   const { isLoading: isLoadingCountries, data: countries } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['countries'],
+    queryKey: ["countries"],
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/countries")
@@ -29,7 +29,7 @@ function UsersFilter({setSearchParams}) {
   // cities
   const { isLoading: isLoadingCities, data: cities } = useQuery({
     refetchOnWindowFocus: false,
-    queryKey: ['cities'],
+    queryKey: ["cities"],
     queryFn: async () => {
       try {
         const resp = await httpRequest.get("/cities")

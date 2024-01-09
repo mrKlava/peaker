@@ -1,11 +1,12 @@
-import moment from "moment"
 import { db } from "../connect.js"
+import moment from "moment"
 import jwt from "jsonwebtoken"
 
 
+/* Get Feed posts */
+
 export const getPosts = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -28,12 +29,6 @@ export const getPosts = (req, res) => {
     ORDER BY p.created DESC
     LIMIT ?, 10
     `  
-    // db.query(q, [user.id, user.id], (err, data) => {
-    //   if (err) return res.status(500).json(err)
-
-      
-    //   return res.status(200).json(data)
-    // })
 
     db.query(q, [user.id, user.id, parseInt(req.query.page) * 10], (err, data) => {
       if (err) return res.status(500).json(err)
@@ -48,9 +43,10 @@ export const getPosts = (req, res) => {
       )
     })
   })
-
 }
 
+
+/* Get User posts */
 
 export const getUserPosts = (req, res) => {
   const q = `
@@ -66,7 +62,6 @@ export const getUserPosts = (req, res) => {
     WHERE p.user_id = ?
     ORDER BY p.created DESC
     LIMIT ?, 10
-
   `
   db.query(q, [req.params.userID, parseInt(req.query.page) * 10], (err, data) => {
     if (err) return res.status(500).json(err)
@@ -83,9 +78,10 @@ export const getUserPosts = (req, res) => {
 }
 
 
+/* Create Post */
+
 export const addPost = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -111,9 +107,10 @@ export const addPost = (req, res) => {
 }
 
 
+/* Delete Post */
+
 export const deletePost = (req, res) => {
   const token = req.cookies.accessToken
-
   if (!token) return res.status(401).json("Not Authorized")
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
@@ -124,9 +121,8 @@ export const deletePost = (req, res) => {
     WHERE post_id = ?
       AND user_id = ?
     `
-    console.log([parseInt(req.params.postID), user.id])
 
-    db.query(q, [req.params.postID, user.id], (err, data) => {
+    db.query(q, [parseInt(req.params.postID), user.id], (err, data) => {
       if (err) return res.status(500).json(err)
       if (data.affectedRows > 0) return res.status(200).json('Post has been deleted')
 

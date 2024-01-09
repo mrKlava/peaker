@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
+// import { useContext } from 'react'
+import { MapList, MapMenu } from '../../components'
+
 import './map-aside.scss'
-import {MapList, MapMenu} from '../../components'
 
 function MapAside() {
 
