@@ -82,11 +82,16 @@
 
         padding: .5rem 1rem;
 
+        transition: background linear .2s;
+
         &:first-child {
           border-radius: 5px 0 0 5px;
         }
         &:last-child {
           border-radius: 0  5px 5px 0;
+        }
+        &:hover {
+          background-color: $color-navlink-hover;
         }
       }
     }
