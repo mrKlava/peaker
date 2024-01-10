@@ -1,0 +1,52 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.map-list {
+  &-item {
+    width: 48.5%;
+
+    transition: background linear .2s;
+
+    // flex-grow: 1;
+
+    &.selected {
+      border-radius: 1rem;
+      background-color: $bg-menu-item-hover;
+    }
+
+    &:hover {
+      border-radius: 1rem;
+    }
+
+    &_title {
+      font-family: $font-text;
+      margin-bottom: 1rem;
+    }
+
+    &_image {
+      overflow: hidden;
+      width: 100%;
+      height: 120px;
+
+      margin-bottom: 1rem;
+
+      border-radius: 3px;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    &_info {
+      .item-info {
+        display: flex;
+        gap: 1rem;
+        
+        &_item {
+
+        }
+      }
+    }
+
+  }
+}

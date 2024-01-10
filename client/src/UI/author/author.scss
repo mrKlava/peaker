@@ -14,6 +14,8 @@
     &_name {
       font-weight: 700;
       font-size: $text-sm;
+      
+      transition: color .2s linear;
 
       @media (max-width: $screen-tablet) {
         font-size: $text-base;
@@ -26,6 +28,24 @@
       @media (max-width: $screen-tablet) {
         font-size: $text-xs;
       }
+    }
+  }
+
+  img {
+    transition: width .2s linear,
+    height .2s linear;
+  }
+
+  &:hover {
+    .author-stamp {
+      &_name {
+        color: $color-navlink-hover;
+      }
+    }
+
+    img {
+      width: 130%;
+      height: 130%;
     }
   }
 }

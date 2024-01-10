@@ -41,7 +41,8 @@ const router = createBrowserRouter([
         <QueryClientProvider client={ queryCLient }>
           <SocialLayout />
         </QueryClientProvider>
-      </ProtectedRoute>),
+      </ProtectedRoute>
+    ),
     children: [
       { path: '/',            element: <FeedPage /> },
       { path: '/users',       element: <UsersPage /> },
@@ -53,12 +54,20 @@ const router = createBrowserRouter([
   { path: '/register',        element: <AuthRoute><RegisterPage /></AuthRoute> },
   {
     path: '/explore',         element: (
-      <MapContextProvider>
         <QueryClientProvider client={ queryCLient }>
           <ExplorePage />
         </QueryClientProvider>
-      </MapContextProvider>)
+    )
   },
+  // {
+  //   path: '/explore',         element: (
+  //     <MapContextProvider>
+  //       <QueryClientProvider client={ queryCLient }>
+  //         <ExplorePage />
+  //       </QueryClientProvider>
+  //     </MapContextProvider>
+  //   )
+  // },
   { path: '*',                 element: <Navigate to='/' /> },
 ])
 

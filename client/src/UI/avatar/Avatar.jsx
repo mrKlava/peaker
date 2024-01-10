@@ -1,10 +1,9 @@
-import React from 'react'
 import './avatar.scss'
 
-function Avatar({img, small=false}) {
+function Avatar({img, alt, small=false}) {
   return (
     <div className={small ? "avatar small" : "avatar"}>
-      <img src={`/assets/images/${img}`} alt="" />
+      <img src={`/assets/images/${img}`} alt={alt} />
     </div>
   )
 }

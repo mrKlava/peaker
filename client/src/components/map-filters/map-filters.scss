@@ -1,0 +1,13 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.menu-form {
+  text-align: center;
+
+  .title-section {
+    font-size: 1.5rem;
+  }
+
+  .text {
+    margin-bottom: 1rem;
+  }
+}

@@ -8,22 +8,43 @@ import { AuthForm } from "../../components"
 function LoginPage() {
   const { login } = useContext(AuthContext)
 
-  const [error, setError] = useState(null)
-  const [inputs, setInputs] = useState({
-    email: "",
-    password: ""
-  })
+  const [ error, setError ] = useState(null)
+  const [ inputs, setInputs ] = useState({ email: "", password: "" })
 
+  /* Handle Inputs */
 
-  const handleChange = (e) => {
-    setInputs(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
+  // handle input change
+  const handleChange = (e) => setInputs(prev => ({...prev, ...prepareInput(e) }))
+
+  // prepare input object
+  const prepareInput = (e) => {
+    const key = e.target.name
+    const value = e.target.value
+   
+    return {[key]: value}
   }
 
+  // check if inputs are valid
+  const isError = () => {
+    const required = ["email", "password"]
+
+    for (const entry of Object.entries(inputs)) {
+      if (required.includes(entry[0]) && !entry[1]) {
+        setError(`${entry[0]} can not be empty`)
+
+        return true
+      }
+    }
+
+    return false
+  }
+
+  // handle submit 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (isError()) return
+
     try {
       const resp = await login(inputs)
      setError(resp)
@@ -80,6 +101,7 @@ function LoginPage() {
           <div>
             <Button onClick={handleSubmit}>Login</Button>
           </div>
+          
         </form>
       </Card>
     </AuthForm>

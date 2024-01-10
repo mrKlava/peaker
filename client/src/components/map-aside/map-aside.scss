@@ -1,12 +1,12 @@
 @use '../../assets/styles/variables.scss' as *;
 
 .map-aside {
-  background-color: gray;
+  background-color: $beige;
 
   display: flex;
   flex-direction: column;
 
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 590px;
+  max-width: 590px;
   height: 100vh;
 }

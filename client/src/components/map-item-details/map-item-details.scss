@@ -1,0 +1,60 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.details {
+  overflow-y: scroll;
+  height: 100%;
+  
+  &-inner {
+    margin: 1rem;
+  }
+
+  &_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    
+    svg {
+      fill: darken($product-main, 20%);
+      width: 2rem;
+      height: 2rem;
+      
+      transition: fill linear .2s;
+      
+      &:hover {
+        fill: $riche-green;
+      }
+    }
+  }
+
+  &_image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+
+    border-radius: 5px;
+    overflow: hidden;
+
+    margin: 1rem 0 2rem;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-info {
+    &-list {
+      display: flex;
+      gap: 1rem;
+
+      margin-top: 1rem;
+      p {
+        display: inline;
+        color: $riche-green;
+        font-weight: 700;
+      }
+    }
+  }
+}

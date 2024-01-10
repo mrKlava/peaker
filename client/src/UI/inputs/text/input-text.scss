@@ -37,6 +37,17 @@
       &::placeholder {
         color: $color-placeholder;
       }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        
+        background: none;
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: $color-input;
+      }
     }
   }
 }

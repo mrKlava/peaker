@@ -21,9 +21,20 @@
   
   &-links {
     display: flex;
+
     gap:1rem;
     
     font-size: $text-md;
+    
+    a {
+      color: $color-navlink;
+
+      transition: color linear .2s;
+      
+      &:hover {
+        color: $color-navlink-hover;
+      }
+    }
     
     @media (max-width: $screen-desktop) {
       font-size: $text-sm;

@@ -1,6 +1,6 @@
 import './card.scss'
 
-function Card({children, className='', light=false, article=false}) {
+function Card({children, className='', light=false, article=false, onClick, onMouseLeave, onMouseEnter}) {
   let classes = className ? className + ' card' : 'card'
 
   classes = light ? `${classes} card__light` : classes
@@ -9,8 +9,8 @@ function Card({children, className='', light=false, article=false}) {
     <>
       {
         article
-        ? <article className={classes}>{children}</article>
-        : <section className={classes}>{children}</section>
+        ? <article onClick={onClick} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter} className={classes}>{children}</article>
+        : <section onClick={onClick} onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter} className={classes}>{children}</section>
       }
     </>
   )

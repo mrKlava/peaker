@@ -18,15 +18,43 @@ function RegisterPage() {
     rePassword: "",
   })
 
-  const handleChange = (e) => {
-    setInputs(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
+
+  /* Handle Inputs */
+
+  // handle input change
+  const handleChange = (e) => setInputs(prev => ({ ...prev, ...prepareInput(e) }))
+ 
+  const prepareInput  = (e) => {
+    const key = e.target.name
+    const value = e.target.value
+   
+    return {[key]: value}
+  }
+
+  // check i
+  const isError = () => {
+    const required = ['firstname', 'lastname', 'email', 'username', 'password']
+
+    for (const entry of Object.entries(inputs)) {
+      if (required.includes(entry[0]) && !entry[1]) {
+        setError(`${entry[0]} can not be empty`)
+
+        return true
+      } else if (inputs.password !== inputs.rePassword) {
+        setError('Passwords must match')
+
+        return true
+      }
+    }
+
+    return false
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (isError()) return
+
     try {
       await httpRequest.post(
           "http://localhost:2280/api/auth/register", 
@@ -98,7 +126,7 @@ function RegisterPage() {
             />
             <InputText
               type="password"
-              name="rePasswordnp,"
+              name="rePassword"
               placeholder="Re-Password ..."
               onChange={handleChange}
               value={inputs.rePassword}

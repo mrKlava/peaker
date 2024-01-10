@@ -135,15 +135,9 @@ function UserUpdate({ setIsUpdate, user }) {
     }
   })
 
-  const handleChange = (e) => {
-    const input = checkInputs(e)
-    console.log(input)
-    setInputs(prev => ({ ...prev, ...input }))
-    
-    
-  }
+  const handleChange = (e) => setInputs(prev => ({ ...prev, ...prepareInput(e) }))
 
-  const checkInputs = (e) => {
+  const prepareInput = (e) => {
     const key = e.target.name
     const value = e.target.value
    
