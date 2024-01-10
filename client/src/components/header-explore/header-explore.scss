@@ -1,0 +1,13 @@
+@use '../../assets/styles/variables.scss' as *;
+
+.explore-header {
+  a {
+    color: $color-navlink;
+
+    transition: color linear .2s;
+
+    &:hover {
+      color: $color-navlink-hover;
+    }
+  }
+}

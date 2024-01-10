@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom'
+import { TitleMain } from '../../UI'
 
 import './header-explore.scss'
 
+
 function HeaderExplore() {
   return (
-    <header>
+    <header className="explore-header">
       <nav>
         <Link to="/">
-        <h1>Peaker</h1> 
+          <TitleMain>Peaker</TitleMain> 
         </Link>
       </nav>
     </header>

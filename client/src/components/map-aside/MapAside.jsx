@@ -1,14 +1,20 @@
-// import { useContext } from 'react'
-import { MapList, MapMenu } from '../../components'
+import { useContext, useEffect } from "react"
+import { MapContext } from "../../context/mapContext"
+import { MapItemDetails, MapList, MapMenu } from "../../components"
 
-import './map-aside.scss'
+import "./map-aside.scss"
 
 function MapAside() {
+  const { selected } = useContext(MapContext)
 
   return (
-    <div className='map-aside'>
+    <div className="map-aside">
       <MapMenu />
-      <MapList />
+      {
+        selected === null
+          ? <MapList />
+          : <MapItemDetails item={selected} />
+      }
     </div>
   )
 }

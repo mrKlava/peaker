@@ -1,33 +1,37 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const MapContext = createContext()
 
 export const MapContextProvider = ({ children }) => {
+  const [ destinations, setDestinations ] = useState([])
   const [ locationList, setLocationList ] = useState([])
   const [ displayList, setDisplayList ] = useState([])
-  const [ clickPos, setClickPos ] = useState(null)
+  const [ clickPosition, setClickPosition ] = useState(null)
   const [ hovered, setHovered ] = useState(null)
   const [ selected, setSelected ] = useState(null)
-
-
-  useEffect(() => {
-    console.log('load map data')
-  }, [])
-
+  const [ filter, setFilter ] = useState({
+    search: '',
+    altitude: 0,
+    main: false
+  })
 
   return (
     <MapContext.Provider value={
       {
-      locationList
-       ,displayList
-       ,clickPos
-       ,hovered
-       ,selected
-       ,setLocationList
-       ,setDisplayList
-       ,setClickPos
-       ,setHovered
-       ,setSelected
+        locationList
+        ,destinations
+        ,displayList
+        ,clickPosition
+        ,hovered
+        ,selected
+        ,filter
+        ,setLocationList
+        ,setDestinations
+        ,setDisplayList
+        ,setClickPosition
+        ,setHovered
+        ,setSelected
+        ,setFilter
       }
     }>
       {children}
