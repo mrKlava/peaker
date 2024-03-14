@@ -62,7 +62,7 @@ export const register = (req, res) => {
       req.body.firstname,
       req.body.lastname,
       req.body.email,
-      req.body.email,
+      req.body.username,
       hash,
       moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     ]

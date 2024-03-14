@@ -4,13 +4,20 @@ CREATE TABLE `users` (
   `middlename` varchar(128),
   `lastname` varchar(128) NOT NULL,
   `gender` varchar(12),
-  `birthday` date NOT NULL,
+  `birthday` date,
+  `bio` text,
   `image_id` int,
   `city_id` int,
   `email` varchar(255) UNIQUE NOT NULL,
   `username` varchar(32) UNIQUE NOT NULL,
   `hash` varchar(255) NOT NULL,
   `registered` datetime NOT NULL
+);
+
+CREATE TABLE `following` (
+  `user_id` int NOT NULL,
+  `following_user_id` int NOT NULL,
+  PRIMARY KEY (`user_id`, `following_user_id`)
 );
 
 CREATE TABLE `images` (
@@ -133,3 +140,7 @@ ALTER TABLE `comment_comments` ADD FOREIGN KEY (`comment_id`) REFERENCES `commen
 ALTER TABLE `posts` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 
 ALTER TABLE `comments` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `following` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+ALTER TABLE `following` ADD FOREIGN KEY (`following_user_id`) REFERENCES `users` (`user_id`);

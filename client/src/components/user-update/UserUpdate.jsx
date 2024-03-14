@@ -163,7 +163,7 @@ function UserUpdate({ setIsUpdate, user }) {
 
     if (error) return
 
-    if (inputs.firstname)
+    // if (inputs.firstname)
 
     try {
       mutation.mutate(inputs)

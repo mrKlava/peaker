@@ -16,6 +16,7 @@ import commentRoutes from "./routes/comments.js"
 import followRoutes from "./routes/follows.js"
 import countryRoutes from "./routes/countries.js"
 import cityRoutes from "./routes/cities.js"
+import mapRoutes from "./routes/map.js"
 import uploadRoutes from "./routes/upload.js"
 
 
@@ -98,6 +99,7 @@ app.use("/api/comments",      commentRoutes)
 app.use("/api/follow",        followRoutes)
 app.use("/api/countries",     countryRoutes)
 app.use("/api/cities",        cityRoutes)
+app.use("/api/map",           mapRoutes)
 // app.use("/api/upload",  uploadRoutes)
 
 

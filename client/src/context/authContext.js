@@ -13,8 +13,11 @@ export const AuthContextProvider = ({ children }) => {
     try {
       const resp = await httpRequest.post("/auth/login", cred, { withCredentials: true, })
 
+      console.log(resp.data)
+
       setCurrentUser(resp.data)
     } catch (err) {
+      
       return err.response.data
     }
   }

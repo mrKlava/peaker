@@ -51,7 +51,6 @@ function SocialLayout() {
                   <Outlet />
                 </div>
               : <Navigate to="/" />
-
         }
 
       </div>

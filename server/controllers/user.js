@@ -44,7 +44,8 @@ export const getFilterUsers = (req, res) => {
       if (value) {
         if (key === 'search') {               // search params
           arr.push(`search_column LIKE ?`)
-          params.push(`%${value}%`)
+          
+          params.push(`%${value.split(" ").join("%")}%`)
         } else {                              // other filters
           if (key === 'country_id') {
             arr.push('country_id = ?')
@@ -179,7 +180,7 @@ export const updateUser = (req, res) => {
 
 
     // handle password
-    if ( password && password.length >= 8 && password === rePassword) {
+    if ( password && password.length && password === rePassword) {
       const salt = bcrypt.genSaltSync(10)
       const hash = bcrypt.hashSync(password, salt)
 

@@ -2,12 +2,13 @@ import { useState } from "react"
 import { httpRequest } from "../../axios"
 import { Button, Card, InputText, Text, TextError, TitleMain, TitleSection } from "../../UI"
 import { AuthForm } from "../../components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import "./register-page.scss"
 
 
 function RegisterPage() {
+  const navigate = useNavigate()
   const [error, setError] = useState(null)
   const [inputs, setInputs] = useState({
     firstname: "",
@@ -56,10 +57,15 @@ function RegisterPage() {
     if (isError()) return
 
     try {
-      await httpRequest.post(
-          "http://localhost:2280/api/auth/register", 
-          { ...inputs, registered: new Date().toISOString() }
+      const resp = await httpRequest.post(
+        "http://localhost:2280/api/auth/register", 
+        { ...inputs, registered: new Date().toISOString() }
       )
+
+      if (resp.status === 200 && resp.data === "User has been created") {
+        navigate("/login")
+      }
+
     } catch (err) {
       setError(err.response.data)
     }

@@ -19,6 +19,8 @@ function ExplorePage() {
       try {
         const resp = await httpRequest.get("/map/locations")
 
+        console.log(resp.data)
+
         return resp.data
 
       } catch (err) {

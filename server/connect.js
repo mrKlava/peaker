@@ -6,3 +6,11 @@ export const db = mysql.createConnection({
   password: process.env.DB_PWD,
   database: process.env.DB_NAME
 })
+
+db.connect((err) => {
+  if (err) {
+    console.log("Error with connection to DB", err)
+  } else {
+    console.log("Connected to DB: ", process.env.DB_NAME)
+  }
+})

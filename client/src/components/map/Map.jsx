@@ -24,12 +24,14 @@ function Map({ locations }) {
     const map = useMapEvents({
       click(e) {
         setClickPosition([e.latlng.lat, e.latlng.lng])
-        // console.log(e.latlng)
+        console.log(e.latlng)
       },
       zoom() {
         setViewPort({ ...map.getBounds() })
         setZoom(map.getZoom())
         updateMarkers()
+
+        console.log(map.getZoom())
       },
       moveend() {
         setViewPort({ ...map.getBounds() })
@@ -54,16 +56,16 @@ function Map({ locations }) {
     // return list
 
     return list.filter((location) => {
-      if (zoom <= 11) {
-        if (location.main) {
-          return location
-        }
-      } else if (zoom <= 13) {
+      if (zoom <= 12) {
         if (location.elevation >= 3200 || location.main) {
           return location
         }
+      } else if (zoom <= 13) {
+        if (location.elevation >= 3100 || location.main) {
+          return location
+        }
       } else if (zoom <= 14) {
-        if (location.elevation >= 2900 || location.main) {
+        if (location.elevation >= 1500 || location.main) {
           return location
         }
       } else if (zoom >= 14) {
